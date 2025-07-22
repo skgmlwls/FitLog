@@ -29,10 +29,5 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp() {
-    // 네비게이션 객체
-    val rememberNavHostController = rememberNavController()
-
-    val tripApplication = LocalContext.current.applicationContext as FitLogApplication
-    tripApplication.navHostController = rememberNavHostController
 
 }
