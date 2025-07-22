@@ -34,5 +34,6 @@ fun MyApp() {
 
     val tripApplication = LocalContext.current.applicationContext as FitLogApplication
     tripApplication.navHostController = rememberNavHostController
-
+    
+    // 여기부터
 }
