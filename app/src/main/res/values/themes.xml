@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.FitLog" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.FitLog" parent="android:Theme.Material.Light.NoActionBar">
+        // 커스텀한 스플레시 화면을 사용하기 위해 기본 스플래쉬 화면을 true => 투명처리
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 배경을 검은색으로 설정 -->
+        <item name="android:windowBackground">#121212</item>
+    </style>
 </resources>
