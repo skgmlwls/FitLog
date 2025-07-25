@@ -7,7 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,13 +19,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.nhj.fitlog.R
+import com.nhj.fitlog.component.FitLogButton
 import com.nhj.fitlog.component.FitLogText
 import com.nhj.fitlog.component.FitLogTextField
-import com.nhj.fitlog.ui.theme.NanumSquareRound
+import com.nhj.fitlog.presentation.login.component.FitLogAutoLoginCheckbox
+import com.nhj.fitlog.presentation.login.component.FitLogIconButton
 
 @Composable
 fun LoginScreen(
@@ -35,6 +39,8 @@ fun LoginScreen(
     var id by remember { mutableStateOf("") }
     // 비밀번호 텍스트 상태 저장
     var password by remember { mutableStateOf("") }
+    // 자동 로그인 체크 상태 저장
+    var autoLoginChecked by remember { mutableStateOf(false) }
 
     // 포커스 제어를 위한 FocusManager
     val focusManager = LocalFocusManager.current
@@ -64,12 +70,14 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(40.dp))
 
+            // 아이디 텍스트 필드
             FitLogTextField(
                 value = id,
                 onValueChange = { id = it },
                 label = "아이디",
                 horizontalPadding = 40.dp
             )
+            // 비밀번호 텍스트 필드
             FitLogTextField(
                 value = password,
                 onValueChange = { password = it },
@@ -77,6 +85,69 @@ fun LoginScreen(
                 horizontalPadding = 40.dp,
                 isPassword = true
             )
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            // 자동 로그인 체크 박스
+            FitLogAutoLoginCheckbox(
+                checked = autoLoginChecked,
+                onCheckedChange = { autoLoginChecked = it }
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+            
+            // 로그인 버튼
+            FitLogButton(
+                text = "로그인",
+                onClick = { viewModel.onNavigateToHome() },
+            )
+            
+            // 회원가입 버튼
+            FitLogButton(
+                text = "회원가입",
+                onClick = { viewModel.onNavigateToJoin() },
+                backgroundColor = Color(0xFF3C3C3C),
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 40.dp),
+                thickness = 1.dp,
+                color = Color(0xFFFFFFFF)
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+            
+            FitLogText(
+                text = "또는",
+                fontSize = 12,
+                fontWeight = FontWeight.Normal,
+                color = Color(0xFFFFFFFF)
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+            
+            // 카카오 로그인 버튼
+            FitLogIconButton(
+                text = "카카오 로그인",
+                icon = painterResource(id = R.drawable.kakao_icon),
+                onClick = { /* 카카오 로그인 로직 */ },
+                containerColor = Color(0xFFFFE812),
+                contentColor = Color(0xFF191919)
+            )
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            // 구글 로그인 버튼
+            FitLogIconButton(
+                text = "구글 로그인",
+                icon = painterResource(id = R.drawable.google_icon),
+                onClick = { /* 구글 로그인 로직 */ },
+                containerColor = Color(0xFFFFFFFF),
+                contentColor = Color(0xFF191919)
+            )
+            
         }
     }
 
