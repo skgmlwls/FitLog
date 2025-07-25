@@ -16,7 +16,10 @@ class SplashViewModel @Inject constructor(
 
     // 로그인 화면으로 이동
     fun onNavigateToLogin() {
-        application.navHostController.navigate(MainScreenName.MAIN_SCREEN_LOGIN.name)
+        application.navHostController.navigate(MainScreenName.MAIN_SCREEN_LOGIN.name) {
+            popUpTo(0) { inclusive = true } // 🔥 백스택 모두 제거
+            launchSingleTop = true
+        }
     }
 
 }

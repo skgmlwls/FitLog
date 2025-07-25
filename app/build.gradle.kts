@@ -80,4 +80,8 @@ dependencies {
     // Coil (GIF 지원 포함)
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("io.coil-kt:coil-gif:2.4.0")
+
+    implementation("androidx.navigation:navigation-compose:2.7.3")
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.31.5-beta")
+
 }
