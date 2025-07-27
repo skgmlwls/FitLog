@@ -1,41 +1,37 @@
 package com.nhj.fitlog.component
 
-
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.nhj.fitlog.ui.theme.NanumSquareRound
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FitLogTopBar(
     title: String,
     onBackClick: () -> Unit,
-    fontSize: TextUnit = 24.sp
+    fontSize: TextUnit = 24.sp,
+    hasActionIcon: Boolean = false, // ✅ 오른쪽 아이콘 사용 여부
+    actionIcon: ImageVector = Icons.Default.Add, // 기본값 (원하면 바꿔도 됨)
+    onActionClick: () -> Unit = {} // 오른쪽 아이콘 클릭 콜백
 ) {
-    // 클릭 가능 여부 상태 저장
     var isClickable by remember { mutableStateOf(true) }
-
-    // 클릭 방지 타이머를 제어할 trigger 변수
     var trigger by remember { mutableStateOf(false) }
 
-    // trigger가 true일 때만 실행되는 지연 효과 (0.5초 후 클릭 가능 상태로 복귀)
     if (trigger) {
         LaunchedEffect(trigger) {
-            kotlinx.coroutines.delay(500)
+            delay(500)
             isClickable = true
             trigger = false
         }
@@ -43,7 +39,6 @@ fun FitLogTopBar(
 
     TopAppBar(
         title = {
-            // 상단 타이틀 텍스트 설정
             Text(
                 text = title,
                 color = Color.White,
@@ -52,20 +47,31 @@ fun FitLogTopBar(
             )
         },
         navigationIcon = {
-            // 뒤로가기 버튼 클릭 이벤트 처리
             IconButton(
                 onClick = {
-                if (isClickable) {
-                    isClickable = false       // 다시 클릭 막기
-                    trigger = true            // LaunchedEffect 작동시키기
-                    onBackClick()             // 뒤로가기 콜백 실행
+                    if (isClickable) {
+                        isClickable = false
+                        trigger = true
+                        onBackClick()
+                    }
                 }
-            }) {
+            ) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBackIosNew,
                     contentDescription = "뒤로가기",
                     tint = Color.White
                 )
+            }
+        },
+        actions = {
+            if (hasActionIcon) {
+                IconButton(onClick = onActionClick) {
+                    Icon(
+                        imageVector = actionIcon,
+                        contentDescription = "액션 아이콘",
+                        tint = Color.White
+                    )
+                }
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(

@@ -5,8 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOutBack
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -16,18 +14,16 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.nhj.fitlog.presentation.exercise.add.ExerciseAddScreen
+import com.nhj.fitlog.presentation.exercise.detail.ExerciseDetailScreen
+import com.nhj.fitlog.presentation.exercise.history.ExerciseHistoryScreen
+import com.nhj.fitlog.presentation.exercise.history_detail.ExerciseHistoryDetailScreen
+import com.nhj.fitlog.presentation.exercise.list.ExerciseTypeScreen
 import com.nhj.fitlog.presentation.home.HomeScreen
 import com.nhj.fitlog.presentation.join.JoinScreen1
 import com.nhj.fitlog.presentation.join.JoinScreen2
@@ -36,6 +32,7 @@ import com.nhj.fitlog.presentation.join.JoinScreen4
 import com.nhj.fitlog.presentation.login.LoginScreen
 import com.nhj.fitlog.presentation.splash.SplashScreen
 import com.nhj.fitlog.ui.theme.FitLogTheme
+import com.nhj.fitlog.utils.ExerciseScreenName
 import com.nhj.fitlog.utils.JoinScreenName
 import com.nhj.fitlog.utils.MainScreenName
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,7 +60,7 @@ fun MyApp() {
 
     AnimatedNavHost(
         navController = navController,
-        startDestination = MainScreenName.MAIN_SCREEN_SPLASH.name,
+        startDestination = MainScreenName.MAIN_SCREEN_HOME.name,
         enterTransition = {
             slideInHorizontally(
                 initialOffsetX = { it }, // 오른쪽에서 들어옴
@@ -132,6 +129,18 @@ fun MyApp() {
                         )
             }
         ) { JoinScreen4() }
+
+        // 운동 종류 화면
+        composable(ExerciseScreenName.EXERCISE_TYPE_SCREEN.name) { ExerciseTypeScreen() }
+        // 운동 추가 화면
+        composable(ExerciseScreenName.EXERCISE_ADD_SCREEN.name) { ExerciseAddScreen() }
+        // 운동 상세 화면
+        composable(ExerciseScreenName.EXERCISE_DETAIL_SCREEN.name) { ExerciseDetailScreen() }
+        // 운동 이전 기록 화면
+        composable(ExerciseScreenName.EXERCISE_HISTORY_SCREEN.name) { ExerciseHistoryScreen() }
+        // 운동 이전 기록 상세 화면
+        composable(ExerciseScreenName.EXERCISE_HISTORY_DETAIL_SCREEN.name) { ExerciseHistoryDetailScreen() }
+
     }
 }
 
