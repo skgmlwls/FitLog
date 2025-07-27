@@ -1,0 +1,39 @@
+users (컬렉션)
+└─ {uid} (문서)
+    ├─ uid: "abc123"
+    ├─ nickname: "헬창1"
+    ├─ phone: "010-1234-5678"
+    ├─ profileImageUrl: "https://..."
+    ├─ isRecordPublic: true
+    ├─ isPicturePublic: true
+    ├─ createdAt: 1722031749000
+    ├─ exerciseRecords (서브컬렉션)
+    │   └─ {recordId} (문서)
+    │       ├─ recordId: "rec001"
+    │       ├─ date: "2025-07-27"
+    │       ├─ exerciseTypeId: "pushup_001"
+    │       ├─ sets: 3
+    │       ├─ reps: 15
+    │       ├─ weight: 0.0
+    │       ├─ memo: "깊이 더!"
+    │       ├─ imageUrl: "https://..."
+    │       └─ createdAt: 1722031749000
+    ├─ exerciseTypes (서브컬렉션)
+    │   └─ {exerciseTypeId} (문서)
+    │       ├─ id: "pushup_001"
+    │       ├─ name: "푸쉬업"
+    │       ├─ category: "가슴"
+    │       └─ createdAt: 1722031749000
+    ├─ routines (서브컬렉션)
+    │   └─ {routineId} (문서)
+    │       ├─ routineId: "routine001"
+    │       ├─ name: "가슴 루틴"
+    │       ├─ exercises: ["pushup_001", "benchpress_001"]
+    │       └─ createdAt: 1722031749000
+    ├─ friends (서브컬렉션)
+    │   └─ {friendUid} (문서)
+    │       ├─ friendUid: "friend456"
+    │       ├─ nickname: "헬창친구"
+    │       ├─ profileImageUrl: "https://..."
+    │       ├─ isVisible: true
+    │       └─ addedAt: 1722031749000

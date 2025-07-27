@@ -30,7 +30,7 @@ fun FitLogButton(
     textColor: Color = Color.White,
     cornerRadius: Dp = 12.dp,
     horizontalPadding: Dp = 40.dp, // ✅ 양옆 패딩 파라미터 추가
-    fontSize : Int = 16
+    fontSize : Int = 16,
 ) {
 
     // 클릭 가능 여부 상태 저장
