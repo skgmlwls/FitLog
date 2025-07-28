@@ -20,7 +20,8 @@ fun FitLogAlertDialog(
     title: String,
     message: String,
     onConfirm: () -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    showCancelButton: Boolean = true // 취소 버튼 표시 여부
 ) {
     Dialog(
         onDismissRequest = onDismiss,
@@ -51,28 +52,43 @@ fun FitLogAlertDialog(
                 )
                 Spacer(modifier = Modifier.height(24.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Box(modifier = Modifier.weight(1f)) {
-                        FitLogButton(
-                            text = "취소",
-                            onClick = onDismiss,
-                            textColor = Color.White,
-                            backgroundColor = Color(0xFF444444),
-                            horizontalPadding = 0.dp
-                        )
+                if (showCancelButton) {
+                    // 확인 + 취소 버튼
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Box(modifier = Modifier.weight(1f)) {
+                            FitLogButton(
+                                text = "취소",
+                                onClick = onDismiss,
+                                textColor = Color.White,
+                                backgroundColor = Color(0xFF444444),
+                                horizontalPadding = 0.dp
+                            )
+                        }
+                        Box(modifier = Modifier.weight(1f)) {
+                            FitLogButton(
+                                text = "확인",
+                                onClick = onConfirm,
+                                textColor = Color.White,
+                                backgroundColor = Color(0xFF47A6FF),
+                                horizontalPadding = 0.dp
+                            )
+                        }
                     }
-                    Box(modifier = Modifier.weight(1f)) {
-                        FitLogButton(
-                            text = "확인",
-                            onClick = onConfirm,
-                            textColor = Color.White,
-                            backgroundColor = Color(0xFF47A6FF),
-                            horizontalPadding = 0.dp
-                        )
-                    }
+                } else {
+                    // 확인 버튼만
+                    FitLogButton(
+                        text = "확인",
+                        onClick = onConfirm,
+                        textColor = Color.White,
+                        backgroundColor = Color(0xFF47A6FF),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp),
+                        horizontalPadding = 0.dp
+                    )
                 }
             }
         }

@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -76,12 +77,22 @@ dependencies {
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.android.gms:play-services-auth:20.6.0")
+
+    // DataStore Preferences
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // Coil (GIF 지원 포함)
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("io.coil-kt:coil-gif:2.4.0")
 
+    // 화면 전환 애니메이션
     implementation("androidx.navigation:navigation-compose:2.7.3")
     implementation("com.google.accompanist:accompanist-navigation-animation:0.31.5-beta")
+
+    // 로딩
+    implementation("com.airbnb.android:lottie-compose:6.2.0")
 
 }

@@ -28,8 +28,8 @@ fun SplashScreen(
 ) {
 
     LaunchedEffect(Unit) {
-        delay(2000) // 2초 후 로그인 화면으로 이동
-        viewModel.onNavigateToLogin()
+        // 2초를 포함한 자동 로그인 분기 로직 호출
+        viewModel.checkAutoLogin()
     }
 
 

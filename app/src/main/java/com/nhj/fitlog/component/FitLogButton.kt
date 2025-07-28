@@ -26,20 +26,18 @@ fun FitLogButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,                         // ← 여기 추가
     backgroundColor: Color = Color(0xFF47A6FF),
+    disabledBackgroundColor: Color = Color(0xFF444444), // 비활성 시 배경
     textColor: Color = Color.White,
+    disabledTextColor: Color = Color.LightGray,        // 비활성 시 텍스트
     cornerRadius: Dp = 12.dp,
-    horizontalPadding: Dp = 40.dp, // ✅ 양옆 패딩 파라미터 추가
-    fontSize : Int = 16,
+    horizontalPadding: Dp = 40.dp,
+    fontSize: Int = 16
 ) {
-
-    // 클릭 가능 여부 상태 저장
     var isClickable by remember { mutableStateOf(true) }
-
-    // 클릭 방지 타이머를 제어할 trigger 변수
     var trigger by remember { mutableStateOf(false) }
 
-    // trigger가 true일 때만 실행되는 지연 효과 (0.5초 후 클릭 가능 상태로 복귀)
     if (trigger) {
         LaunchedEffect(trigger) {
             kotlinx.coroutines.delay(500)
@@ -51,18 +49,21 @@ fun FitLogButton(
     Button(
         onClick = {
             if (isClickable) {
-                isClickable = false       // 다시 클릭 막기
-                trigger = true            // LaunchedEffect 작동시키기
-                onClick()             // 뒤로가기 콜백 실행
+                isClickable = false
+                trigger = true
+                onClick()
             }
         },
+        enabled = enabled && isClickable,               // ← enabled 반영
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = horizontalPadding), // ✅ 적용
+            .padding(horizontal = horizontalPadding),
         shape = RoundedCornerShape(cornerRadius),
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor,
-            contentColor = textColor
+            contentColor = textColor,
+            disabledContainerColor = disabledBackgroundColor,
+            disabledContentColor = disabledTextColor
         ),
         contentPadding = PaddingValues(0.dp)
     ) {

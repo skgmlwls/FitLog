@@ -24,11 +24,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.nhj.fitlog.R
+import com.nhj.fitlog.component.FitLogAlertDialog
 import com.nhj.fitlog.component.FitLogButton
 import com.nhj.fitlog.component.FitLogText
 import com.nhj.fitlog.component.FitLogTextField
 import com.nhj.fitlog.presentation.login.component.FitLogAutoLoginCheckbox
 import com.nhj.fitlog.presentation.login.component.FitLogIconButton
+import com.nhj.fitlog.presentation.login.launcher.rememberGoogleSignInLauncher
 
 @Composable
 fun LoginScreen(
@@ -39,12 +41,20 @@ fun LoginScreen(
     var id by remember { mutableStateOf("") }
     // 비밀번호 텍스트 상태 저장
     var password by remember { mutableStateOf("") }
-    // 자동 로그인 체크 상태 저장
-    var autoLoginChecked by remember { mutableStateOf(false) }
+
+    // 에러 메시지 상태
+    var idError by remember { mutableStateOf("") }
+    var passwordError by remember { mutableStateOf("") }
 
     // 포커스 제어를 위한 FocusManager
     val focusManager = LocalFocusManager.current
 
+    // Google 로그인 런처
+    // stringResource로 webClientId를 가져와 Google 로그인 런처를 생성하고,
+    // 성공 시 viewModel.onGoogleSignInSuccess 호출
+    val launchGoogleSignIn = rememberGoogleSignInLauncher { acct ->
+        viewModel.onGoogleSignInSuccess(acct)
+    }
 
     Box(
         modifier = Modifier
@@ -73,8 +83,13 @@ fun LoginScreen(
             // 아이디 텍스트 필드
             FitLogTextField(
                 value = id,
-                onValueChange = { id = it },
+                onValueChange = {
+                    id = it
+                    if (idError.isNotEmpty() && it.isNotBlank()) idError = ""
+                },
                 label = "아이디",
+                isError = idError.isNotEmpty(),
+                errorText = idError,
                 horizontalPadding = 40.dp
             )
             // 비밀번호 텍스트 필드
@@ -82,16 +97,18 @@ fun LoginScreen(
                 value = password,
                 onValueChange = { password = it },
                 label = "비밀번호",
+                isPassword = true,
+                isError = passwordError.isNotEmpty(),
+                errorText = passwordError,
                 horizontalPadding = 40.dp,
-                isPassword = true
             )
 
             Spacer(modifier = Modifier.height(5.dp))
 
-            // 자동 로그인 체크 박스
+            // 자동 로그인 체크박스
             FitLogAutoLoginCheckbox(
-                checked = autoLoginChecked,
-                onCheckedChange = { autoLoginChecked = it }
+                checked = viewModel.autoLoginEnabled,
+                onCheckedChange = { viewModel.autoLoginEnabled = it }
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -99,7 +116,21 @@ fun LoginScreen(
             // 로그인 버튼
             FitLogButton(
                 text = "로그인",
-                onClick = { viewModel.onNavigateToHome() },
+                onClick = {
+                    // 빈칸 검증
+                    var valid = true
+                    if (id.isBlank()) {
+                        idError = "아이디를 입력하세요."
+                        valid = false
+                    }
+                    if (password.isBlank()) {
+                        passwordError = "비밀번호를 입력하세요."
+                        valid = false
+                    }
+                    if (valid) {
+                        viewModel.onIdPasswordLogin(id, password)
+                    }
+                }
             )
             
             // 회원가입 버튼
@@ -139,14 +170,25 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(5.dp))
 
-            // 구글 로그인 버튼
+            // 구글 로그인 버튼 클릭 시
             FitLogIconButton(
                 text = "구글 로그인",
                 icon = painterResource(id = R.drawable.google_icon),
-                onClick = { /* 구글 로그인 로직 */ },
-                containerColor = Color(0xFFFFFFFF),
+                onClick = launchGoogleSignIn,
+                containerColor = Color.White,
                 contentColor = Color(0xFF191919)
             )
+
+            // -- 로그인 실패 다이얼로그 --
+            if (viewModel.showLoginErrorDialog) {
+                FitLogAlertDialog(
+                    title = "로그인 실패",
+                    message = "아이디 또는 비밀번호가 일치하지 않습니다.",
+                    onConfirm = { viewModel.showLoginErrorDialog = false },
+                    onDismiss = { viewModel.showLoginErrorDialog = false },
+                    showCancelButton = false  // 확인 버튼만 표시
+                )
+            }
             
         }
     }

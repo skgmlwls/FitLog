@@ -1,5 +1,6 @@
 package com.nhj.fitlog.presentation.home
 
+import android.util.Log
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.filled.AddCircleOutline
 import androidx.compose.material.icons.filled.Cached
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -24,6 +26,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,6 +47,11 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(Unit) {
+        Log.d("HomeScreen", viewModel.application.userUid)
+        viewModel.firstRun()
+    }
 
     Scaffold(
         containerColor = Color(0xFF121212)
@@ -142,6 +150,13 @@ fun HomeScreen(
                 text = "오늘 운동 기록하기",
                 icon = Icons.Default.AddCircleOutline,
                 onClick = {  }
+            )
+
+            // 오늘 운동 기록하기 버튼
+            FitLogIconButton(
+                text = "로그아웃",
+                icon = Icons.Default.Logout,
+                onClick = { viewModel.onLogout() }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
