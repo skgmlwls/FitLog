@@ -21,6 +21,11 @@ fun JoinScreen2(
 ) {
     val focusManager = LocalFocusManager.current
 
+    // 비밀번호 빈칸 에러
+    var showPasswordError by remember { mutableStateOf(false) }
+    // 확인 빈칸/불일치 에러
+    var showConfirmError by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             FitLogTopBar(
@@ -47,21 +52,38 @@ fun JoinScreen2(
                     .padding(top = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // 비밀번호 입력
                 FitLogTextField(
                     value = viewModel.joinPassword,
-                    onValueChange = { viewModel.joinPassword = it },
+                    onValueChange = {
+                        viewModel.joinPassword = it
+                        if (showPasswordError && it.isNotBlank()) showPasswordError = false
+                    },
                     label = "비밀번호",
-                    isPassword = true
+                    isPassword = true,
+                    isError = showPasswordError,
+                    errorText = "비밀번호를 입력하세요."
                 )
 
+                // 비밀번호 확인 입력
                 FitLogTextField(
                     value = viewModel.joinConfirmPassword,
-                    onValueChange = { viewModel.joinConfirmPassword = it },
+                    onValueChange = {
+                        viewModel.joinConfirmPassword = it
+                        if (showConfirmError && it.isNotBlank()) showConfirmError = false
+                    },
                     label = "비밀번호 확인",
-                    isPassword = true
+                    isPassword = true,
+                    isError = showConfirmError,
+                    errorText = when {
+                        viewModel.joinConfirmPassword.isBlank() -> "비밀번호 확인을 입력하세요."
+                        viewModel.joinConfirmPassword != viewModel.joinPassword -> "비밀번호가 일치하지 않습니다."
+                        else -> ""
+                    }
                 )
             }
 
+            // 다음 버튼
             Column(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -70,7 +92,23 @@ fun JoinScreen2(
             ) {
                 FitLogButton(
                     text = "다음",
-                    onClick = { viewModel.onNavigateToJoinScreen3() },
+                    onClick = {
+                        // 에러 초기화
+                        showPasswordError = false
+                        showConfirmError = false
+
+                        // 검증
+                        when {
+                            viewModel.joinPassword.isBlank() ->
+                                showPasswordError = true
+                            viewModel.joinConfirmPassword.isBlank() ->
+                                showConfirmError = true
+                            viewModel.joinPassword != viewModel.joinConfirmPassword ->
+                                showConfirmError = true
+                            else ->
+                                viewModel.onNavigateToJoinScreen3()
+                        }
+                    },
                     horizontalPadding = 20.dp,
                 )
             }

@@ -1,31 +1,44 @@
-package com.nhj.fitlog.presentation.join
+package com.nhj.fitlog.presentation.login.google_nickname
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.AlertDialog
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.nhj.fitlog.component.FitLogAlertDialog
-import com.nhj.fitlog.component.FitLogTextField
 import com.nhj.fitlog.component.FitLogButton
+import com.nhj.fitlog.component.FitLogTextField
 import com.nhj.fitlog.component.FitLogTopBar
 import com.nhj.fitlog.presentation.join.component.JoinCompleteDialog
 
 @Composable
-fun JoinScreen4(
-    viewModel: JoinViewModel = hiltViewModel()
+fun GoogleNickNameScreen(
+    userUid: String,
+    userEmail: String,
+    viewModel: GoogleNickNameViewModel = hiltViewModel()
 ) {
     val focusManager = LocalFocusManager.current
     var showNicknameError by remember { mutableStateOf(false) }
+
+//    LaunchedEffect(Unit) {
+//        viewModel.settingUserData(userUid, userEmail)
+//    }
 
     Scaffold(
         topBar = {
@@ -90,9 +103,8 @@ fun JoinScreen4(
     if (viewModel.showCompleteDialog) {
         JoinCompleteDialog(
             onConfirm = {
+                viewModel.onNavigateToHomeScreen()
                 viewModel.showCompleteDialog = false
-                viewModel.addUserToFirestore()
-                viewModel.onNavigateToLoginScreen()
             },
             onDismiss = { viewModel.showCompleteDialog = false }
         )

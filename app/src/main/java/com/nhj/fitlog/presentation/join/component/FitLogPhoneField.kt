@@ -22,7 +22,8 @@ fun FitLogPhoneTextField(
     onValueChange: (String) -> Unit,
     label: String = "휴대폰 번호",
     horizontalPadding: Dp = 24.dp,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
 ) {
     val visualTransformation = PhoneNumberVisualTransformation()
 
@@ -46,6 +47,7 @@ fun FitLogPhoneTextField(
             .fillMaxWidth()
             .padding(horizontal = horizontalPadding),
         singleLine = true,
+        enabled = enabled,
         visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         colors = TextFieldDefaults.colors(

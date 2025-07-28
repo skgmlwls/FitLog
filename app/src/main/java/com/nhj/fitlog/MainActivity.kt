@@ -15,9 +15,12 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.nhj.fitlog.presentation.exercise.add.ExerciseAddScreen
 import com.nhj.fitlog.presentation.exercise.detail.ExerciseDetailScreen
@@ -29,7 +32,9 @@ import com.nhj.fitlog.presentation.join.JoinScreen1
 import com.nhj.fitlog.presentation.join.JoinScreen2
 import com.nhj.fitlog.presentation.join.JoinScreen3
 import com.nhj.fitlog.presentation.join.JoinScreen4
+import com.nhj.fitlog.presentation.join.JoinViewModel
 import com.nhj.fitlog.presentation.login.LoginScreen
+import com.nhj.fitlog.presentation.login.google_nickname.GoogleNickNameScreen
 import com.nhj.fitlog.presentation.splash.SplashScreen
 import com.nhj.fitlog.ui.theme.FitLogTheme
 import com.nhj.fitlog.utils.ExerciseScreenName
@@ -60,7 +65,7 @@ fun MyApp() {
 
     AnimatedNavHost(
         navController = navController,
-        startDestination = MainScreenName.MAIN_SCREEN_HOME.name,
+        startDestination = MainScreenName.MAIN_SCREEN_SPLASH.name,
         enterTransition = {
             slideInHorizontally(
                 initialOffsetX = { it }, // 오른쪽에서 들어옴
@@ -108,27 +113,61 @@ fun MyApp() {
         // 홈 화면
         composable(MainScreenName.MAIN_SCREEN_HOME.name) { HomeScreen() }
 
-        // 회원가입
-        // 회원가입 화면 1
-        composable(JoinScreenName.MAIN_SCREEN_STEP1.name) { JoinScreen1() }
-        // 회원가입 화면 2
-        composable(JoinScreenName.MAIN_SCREEN_STEP2.name) { JoinScreen2() }
-        // 회원가입 화면 3
-        composable(JoinScreenName.MAIN_SCREEN_STEP3.name) { JoinScreen3() }
-        // 회원가입 화면 4
-        composable(
-            JoinScreenName.MAIN_SCREEN_STEP4.name,
-            exitTransition = {
-                fadeOut(animationSpec = tween(100)) +
-                        scaleOut(
-                            targetScale = 1.1f,
-                            animationSpec = tween(
-                                durationMillis = 180,
-                                easing = FastOutLinearInEasing
-                            )
-                        )
+        // ─── 회원가입 그래프 ───────────────────
+        navigation(
+            startDestination = JoinScreenName.MAIN_SCREEN_STEP1.name,
+            route = "join_graph"
+        ) {
+            // 모든 JoinScreen이 "join_graph" 스코프의 같은 ViewModel을 사용합니다.
+            composable(JoinScreenName.MAIN_SCREEN_STEP1.name) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry("join_graph")
+                }
+                val vm: JoinViewModel = hiltViewModel(parentEntry)
+                JoinScreen1(viewModel = vm)
             }
-        ) { JoinScreen4() }
+            composable(JoinScreenName.MAIN_SCREEN_STEP2.name) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry("join_graph")
+                }
+                val vm: JoinViewModel = hiltViewModel(parentEntry)
+                JoinScreen2(viewModel = vm)
+            }
+            composable(JoinScreenName.MAIN_SCREEN_STEP3.name) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry("join_graph")
+                }
+                val vm: JoinViewModel = hiltViewModel(parentEntry)
+                JoinScreen3(viewModel = vm)
+            }
+            composable(
+                JoinScreenName.MAIN_SCREEN_STEP4.name,
+                exitTransition = {
+                    fadeOut(animationSpec = tween(100)) +
+                            scaleOut(
+                                targetScale = 1.1f,
+                                animationSpec = tween(
+                                    durationMillis = 180,
+                                    easing = FastOutLinearInEasing
+                                )
+                            )
+                }
+            ) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry("join_graph")
+                }
+                val vm: JoinViewModel = hiltViewModel(parentEntry)
+                JoinScreen4(viewModel = vm)
+            }
+        }
+
+        composable(
+            route = "${JoinScreenName.GOOGLE_NICKNAME_SCREEN.name}/{userUid}/{userEmail}",
+        ) { backStackEntry ->
+            val userUid = backStackEntry.arguments?.getString("userUid") ?: ""
+            val userEmail = backStackEntry.arguments?.getString("userEmail") ?: ""
+            GoogleNickNameScreen(userUid, userEmail)
+        }
 
         // 운동 종류 화면
         composable(ExerciseScreenName.EXERCISE_TYPE_SCREEN.name) { ExerciseTypeScreen() }

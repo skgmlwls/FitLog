@@ -19,6 +19,8 @@ enum class JoinScreenName {
     MAIN_SCREEN_STEP3,
     // 회원 가입 4 화면, 닉네임 받기
     MAIN_SCREEN_STEP4,
+    // 구글 닉네임 화면
+    GOOGLE_NICKNAME_SCREEN,
 }
 
 enum class ExerciseScreenName {
