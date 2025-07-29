@@ -49,8 +49,8 @@ fun HomeScreen(
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(Unit) {
-        Log.d("HomeScreen", viewModel.application.userUid)
-        viewModel.firstRun()
+        // 실시간 리스너 시작
+        viewModel.startUserListener()   // ← 실시간 리스너 시작
     }
 
     Scaffold(
@@ -73,7 +73,7 @@ fun HomeScreen(
             ) {
                 // 아이콘 버튼: 오른쪽 상단 고정
                 IconButton(
-                    onClick = { },
+                    onClick = { viewModel.onNavigateToSettings() },
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(top = 16.dp)
@@ -101,7 +101,7 @@ fun HomeScreen(
 
             // 인사 텍스트
             Text(
-                text = "홍길동님 안녕하세요~!",
+                text = "${viewModel.application.userModel.nickname}님 안녕하세요~!",
                 color = Color.White,
                 fontSize = 16.sp
             )
@@ -150,13 +150,6 @@ fun HomeScreen(
                 text = "오늘 운동 기록하기",
                 icon = Icons.Default.AddCircleOutline,
                 onClick = {  }
-            )
-
-            // 오늘 운동 기록하기 버튼
-            FitLogIconButton(
-                text = "로그아웃",
-                icon = Icons.Default.Logout,
-                onClick = { viewModel.onLogout() }
             )
 
             Spacer(modifier = Modifier.height(24.dp))

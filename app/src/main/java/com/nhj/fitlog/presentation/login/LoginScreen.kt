@@ -1,5 +1,6 @@
 package com.nhj.fitlog.presentation.login
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,6 +30,7 @@ import com.nhj.fitlog.component.FitLogAlertDialog
 import com.nhj.fitlog.component.FitLogButton
 import com.nhj.fitlog.component.FitLogText
 import com.nhj.fitlog.component.FitLogTextField
+import com.nhj.fitlog.component.LottieLoadingOverlay
 import com.nhj.fitlog.presentation.login.component.FitLogAutoLoginCheckbox
 import com.nhj.fitlog.presentation.login.component.FitLogIconButton
 import com.nhj.fitlog.presentation.login.launcher.rememberGoogleSignInLauncher
@@ -36,6 +39,8 @@ import com.nhj.fitlog.presentation.login.launcher.rememberGoogleSignInLauncher
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val activity = context as Activity
 
     // 아이디 텍스트 상태 저장
     var id by remember { mutableStateOf("") }
@@ -163,7 +168,7 @@ fun LoginScreen(
             FitLogIconButton(
                 text = "카카오 로그인",
                 icon = painterResource(id = R.drawable.kakao_icon),
-                onClick = { /* 카카오 로그인 로직 */ },
+                onClick = { viewModel.onKakaoSignIn(activity) },
                 containerColor = Color(0xFFFFE812),
                 contentColor = Color(0xFF191919)
             )
@@ -191,6 +196,13 @@ fun LoginScreen(
             }
             
         }
+
+        // 로딩 오버레이
+        LottieLoadingOverlay(
+            isVisible = viewModel.isLoading,
+            modifier = Modifier.fillMaxSize()
+        )
+
     }
 
 }

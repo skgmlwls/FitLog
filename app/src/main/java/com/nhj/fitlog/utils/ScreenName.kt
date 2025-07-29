@@ -7,6 +7,8 @@ enum class MainScreenName {
     MAIN_SCREEN_HOME,
     // 로그인 화면
     MAIN_SCREEN_LOGIN,
+    // 설정 화면
+    MAIN_SCREEN_SETTING,
 }
 
 // 회원가입 스크린 이름
@@ -20,7 +22,7 @@ enum class JoinScreenName {
     // 회원 가입 4 화면, 닉네임 받기
     MAIN_SCREEN_STEP4,
     // 구글 닉네임 화면
-    GOOGLE_NICKNAME_SCREEN,
+    SOCIAL_NICKNAME_SCREEN,
 }
 
 enum class ExerciseScreenName {

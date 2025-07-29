@@ -34,7 +34,8 @@ import com.nhj.fitlog.presentation.join.JoinScreen3
 import com.nhj.fitlog.presentation.join.JoinScreen4
 import com.nhj.fitlog.presentation.join.JoinViewModel
 import com.nhj.fitlog.presentation.login.LoginScreen
-import com.nhj.fitlog.presentation.login.google_nickname.GoogleNickNameScreen
+import com.nhj.fitlog.presentation.login.social_nickname.SocialNickNameScreen
+import com.nhj.fitlog.presentation.setting.SettingsScreen
 import com.nhj.fitlog.presentation.splash.SplashScreen
 import com.nhj.fitlog.ui.theme.FitLogTheme
 import com.nhj.fitlog.utils.ExerciseScreenName
@@ -161,13 +162,16 @@ fun MyApp() {
             }
         }
 
+        // 소셜 닉네임 화면
         composable(
-            route = "${JoinScreenName.GOOGLE_NICKNAME_SCREEN.name}/{userUid}/{userEmail}",
+            route = "${JoinScreenName.SOCIAL_NICKNAME_SCREEN.name}/{joinMethod}",
         ) { backStackEntry ->
-            val userUid = backStackEntry.arguments?.getString("userUid") ?: ""
-            val userEmail = backStackEntry.arguments?.getString("userEmail") ?: ""
-            GoogleNickNameScreen(userUid, userEmail)
+            val joinMethod = backStackEntry.arguments?.getString("joinMethod") ?: ""
+            SocialNickNameScreen(joinMethod)
         }
+        
+        // 설정 화면
+        composable(MainScreenName.MAIN_SCREEN_SETTING.name) { SettingsScreen() }
 
         // 운동 종류 화면
         composable(ExerciseScreenName.EXERCISE_TYPE_SCREEN.name) { ExerciseTypeScreen() }

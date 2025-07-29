@@ -12,8 +12,8 @@ data class UserVO(
     val nickname: String = "",                          // 닉네임
     val phone: String = "",                             // 휴대폰 번호
     val profileImageUrl: String = "",                   // 프로필 이미지 URL
-    val isRecordPublic: Boolean = true,                 // 운동 기록 공개 여부
-    val isPicturePublic: Boolean = true,                // 사진 공개 여부
+    val recordPublic: Boolean = false,                 // 운동 기록 공개 여부
+    val picturePublic: Boolean = false,                // 사진 공개 여부
     val createdAt: Long = 0L                            // 가입 시간
 ) {
     fun toModel(): UserModel = UserModel(
@@ -25,8 +25,8 @@ data class UserVO(
         nickname = nickname,
         phone = phone,
         profileImageUrl = profileImageUrl,
-        isRecordPublic = isRecordPublic,
-        isPicturePublic = isPicturePublic,
+        recordPublic = recordPublic,
+        picturePublic = picturePublic,
         createdAt = createdAt
     )
 }

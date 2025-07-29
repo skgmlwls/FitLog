@@ -44,6 +44,8 @@ class SplashViewModel @Inject constructor(
             // 4) 분기 네비게이션
             if (shouldGoHome) {
                 application.userUid = storedUid!!
+                // Uid 기반으로 유저 정보 가져오기
+                userService.getUserByUid(storedUid)?.let { application.userModel = it }
                 onNavigateToHome()
             } else {
                 onNavigateToLogin()
