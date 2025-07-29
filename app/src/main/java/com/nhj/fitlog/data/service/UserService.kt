@@ -35,4 +35,20 @@ class UserService(
         return vo?.toModel()
     }
 
+    // UID 기반 사용자 정보 조회
+    suspend fun getUserByUid(uid: String): UserModel? {
+        val vo = userRepository.getUserByUid(uid)
+        return vo?.toModel()
+    }
+
+    // 기록 공개 여부 업데이트
+    suspend fun updateRecordVisibility(uid: String, isRecordPublic: Boolean) {
+        userRepository.updateRecordVisibility(uid, isRecordPublic)
+    }
+
+    // 사진 공개 여부 업데이트
+    suspend fun updatePictureVisibility(uid: String, isPicturePublic: Boolean) {
+        userRepository.updatePictureVisibility(uid, isPicturePublic)
+    }
+
 }

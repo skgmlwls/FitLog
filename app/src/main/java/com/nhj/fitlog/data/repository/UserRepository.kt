@@ -61,4 +61,30 @@ class UserRepository {
             .await()
         return snap.documents.firstOrNull()?.toObject(UserVO::class.java)
     }
+
+    // UID 기반 사용자 정보 조회
+    suspend fun getUserByUid(uid: String): UserVO? {
+        val snap = db.collection("users")
+            .document(uid)
+            .get()
+            .await()
+        return snap.toObject(UserVO::class.java)
+    }
+
+    // 기록 공개 여부 업데이트
+    suspend fun updateRecordVisibility(uid: String, isRecordPublic: Boolean) {
+        db.collection("users")
+            .document(uid)
+            .update("recordPublic", isRecordPublic)
+            .await()
+    }
+
+    // 사진 공개 여부 업데이트
+    suspend fun updatePictureVisibility(uid: String, isPicturePublic: Boolean) {
+        db.collection("users")
+            .document(uid)
+            .update("picturePublic", isPicturePublic)
+            .await()
+    }
+
 }

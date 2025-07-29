@@ -1,4 +1,4 @@
-package com.nhj.fitlog.presentation.login.google_nickname
+package com.nhj.fitlog.presentation.login.social_nickname
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -28,17 +28,16 @@ import com.nhj.fitlog.component.FitLogTopBar
 import com.nhj.fitlog.presentation.join.component.JoinCompleteDialog
 
 @Composable
-fun GoogleNickNameScreen(
-    userUid: String,
-    userEmail: String,
-    viewModel: GoogleNickNameViewModel = hiltViewModel()
+fun SocialNickNameScreen(
+    joinMethod: String,
+    viewModel: SocialNickNameViewModel = hiltViewModel()
 ) {
     val focusManager = LocalFocusManager.current
     var showNicknameError by remember { mutableStateOf(false) }
 
-//    LaunchedEffect(Unit) {
-//        viewModel.settingUserData(userUid, userEmail)
-//    }
+    LaunchedEffect(Unit) {
+        viewModel.joinMethod = joinMethod
+    }
 
     Scaffold(
         topBar = {

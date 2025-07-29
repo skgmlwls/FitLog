@@ -1,7 +1,6 @@
-package com.nhj.fitlog.presentation.login.google_nickname
+package com.nhj.fitlog.presentation.login.social_nickname
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,7 +11,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.nhj.fitlog.FitLogApplication
 import com.nhj.fitlog.data.service.UserService
 import com.nhj.fitlog.domain.model.UserModel
-import com.nhj.fitlog.utils.JoinMethod
 import com.nhj.fitlog.utils.MainScreenName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -20,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GoogleNickNameViewModel @Inject constructor(
+class SocialNickNameViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val userService: UserService
 ) : ViewModel() {
@@ -30,6 +28,9 @@ class GoogleNickNameViewModel @Inject constructor(
 //    var joinUid by mutableStateOf("")
 //    // Email
 //    var joinEmail by mutableStateOf("")
+
+    // 인증된 사용자의 Firebase UID
+    var joinMethod by mutableStateOf("")
 
     // 닉네임
     var joinNickname by mutableStateOf("")
@@ -72,7 +73,7 @@ class GoogleNickNameViewModel @Inject constructor(
         // 2) Firestore 저장
         viewModelScope.launch {
             val user = UserModel(
-                joinMethod = JoinMethod.GOOGLE.methodName,
+                joinMethod = joinMethod,
                 uid             = currentUser.uid,             // Auth UID
                 id              = "",                           // Auth Email
                 password        = "",                           // Auth Email
@@ -80,8 +81,8 @@ class GoogleNickNameViewModel @Inject constructor(
                 nickname        = joinNickname,                // 입력한 닉네임
                 phone           = "",                          // 없으므로 빈값
                 profileImageUrl = "",                // Google 프로필 사진
-                isRecordPublic  = true,
-                isPicturePublic = true,
+                recordPublic  = true,
+                picturePublic = true,
                 createdAt       = System.currentTimeMillis()
             )
             userService.addUser(user)

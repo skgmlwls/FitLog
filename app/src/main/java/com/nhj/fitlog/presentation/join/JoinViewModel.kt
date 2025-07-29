@@ -161,8 +161,8 @@ class JoinViewModel @Inject constructor(
                 nickname = joinNickname,                        // 닉네임
                 phone = joinPhoneNumber,                        // 전화번호
                 profileImageUrl = "",                           // 기본 프로필 이미지 (아직 없음)
-                isRecordPublic = true,                          // 운동 기록 공개 여부
-                isPicturePublic = true,                         // 사진 공개 여부
+                recordPublic = false,                          // 운동 기록 공개 여부
+                picturePublic = false,                         // 사진 공개 여부
                 createdAt = System.currentTimeMillis()          // 가입 시각
             )
             userService.addUser(user) // UserService를 통해 저장
