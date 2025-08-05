@@ -1,6 +1,8 @@
 package com.nhj.fitlog
 
+import com.nhj.fitlog.data.repository.ExerciseRepository
 import com.nhj.fitlog.data.repository.UserRepository
+import com.nhj.fitlog.data.service.ExerciseService
 import com.nhj.fitlog.data.service.UserService
 import dagger.Module
 import dagger.Provides
@@ -13,6 +15,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object FitLogAppModule {
 
+    // 유저 관련 ////////////////////////////////////
     @Provides
     @Singleton
     fun provideUserRepository(): UserRepository {
@@ -26,6 +29,22 @@ object FitLogAppModule {
     ): UserService {
         return UserService(userRepository)
     }
+    ///////////////////////////////////////////////
 
-    // 필요한 다른 Service, Repository도 여기에 추가하면 돼
+    // 운동 관련 ////////////////////////////////////
+    @Provides
+    @Singleton
+    fun provideExerciseRepository(): ExerciseRepository {
+        return ExerciseRepository()
+    }
+
+    @Provides
+    @Singleton
+    fun provideExerciseService(
+        exerciseRepository: ExerciseRepository
+    ): ExerciseService {
+        return ExerciseService(exerciseRepository)
+    }
+    ///////////////////////////////////////////////
+
 }
