@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -34,6 +35,10 @@ import com.nhj.fitlog.presentation.exercise.list.component.ExerciseTypeItem
 fun ExerciseTypeScreen(
     viewModel: ExerciseTypeViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.loadExercises()   // 초기 데이터 로드
+    }
+
     val selectedCategory by viewModel.selectedCategory.collectAsState()
     val exerciseList by viewModel.exerciseList.collectAsState()
 
@@ -70,9 +75,9 @@ fun ExerciseTypeScreen(
                             selectedLabelColor = Color.White
                         ),
                         selected = selectedCategory == category,
-                        onClick = { viewModel.selectCategory(category) },
+                        onClick  = { viewModel.selectCategory(category) },
                         label = { Text(category) },
-                        border = null // ✅ 테두리 제거
+                        border = null // 테두리 제거
                     )
                 }
             }

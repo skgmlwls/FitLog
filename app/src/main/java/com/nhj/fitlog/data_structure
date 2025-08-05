@@ -18,7 +18,7 @@ users (컬렉션)
     │       ├─ memo: "깊이 더!"
     │       ├─ imageUrl: "https://..."
     │       └─ createdAt: 1722031749000
-    ├─ exerciseTypes (서브컬렉션)
+    ├─ exerciseType (서브컬렉션)
     │   └─ {exerciseTypeId} (문서)
     │       ├─ id: "pushup_001"
     │       ├─ name: "푸쉬업"
