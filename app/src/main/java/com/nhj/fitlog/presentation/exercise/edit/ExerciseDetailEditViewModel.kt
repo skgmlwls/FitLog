@@ -1,4 +1,4 @@
-package com.nhj.fitlog.presentation.exercise.add
+package com.nhj.fitlog.presentation.exercise.edit
 
 import android.content.Context
 import androidx.compose.runtime.getValue
@@ -6,32 +6,30 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import com.nhj.fitlog.FitLogApplication
 import com.nhj.fitlog.data.service.ExerciseService
 import com.nhj.fitlog.domain.model.ExerciseTypeModel
 import com.nhj.fitlog.utils.ExerciseCategories
-import com.nhj.fitlog.utils.ExerciseScreenName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ExerciseAddViewModel @Inject constructor(
+class ExerciseDetailEditViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val exerciseService: ExerciseService
 ) : ViewModel() {
     val application = context as FitLogApplication
 
+    // 운동 아이디
+    var exerciseId by mutableStateOf("")
     // 운동 이름
     var exerciseName by mutableStateOf("")
+    // 운동 카테고리
+    var exerciseCategory by mutableStateOf("") // 기본 선택값 설정
     // 기타 메모
     var exerciseMemo by mutableStateOf("")
-
-    // 에러 표시 상태
-    var showNameBlankError by mutableStateOf(false)
-    var showDuplicateNameError by mutableStateOf(false)
 
     // 운동 카테고리
     val categoryOptions = listOf(
@@ -44,23 +42,15 @@ class ExerciseAddViewModel @Inject constructor(
         ExerciseCategories.ETC.str
     )
 
-    // 선택된 카테고리 변수
-    var exerciseCategory by mutableStateOf(categoryOptions.first()) // 기본 선택값 설정
+    // 에러 상태
+    var showNameBlankError by mutableStateOf(false)
+    var showNameDuplicateError by mutableStateOf(false)
+    var showSaveConfirm by mutableStateOf(false)
 
-    // 운동 카테고리 화면으로 이동
-    fun onNavigateExerciseType() {
-        application.navHostController.navigate(ExerciseScreenName.EXERCISE_TYPE_SCREEN.name) {
-            popUpTo(ExerciseScreenName.EXERCISE_TYPE_SCREEN.name) {
-                inclusive = true
-            }
-            launchSingleTop = true
-        }
-    }
-
-    // 운동 종류 추가
-    fun addExercise() {
+    // 운동 상세 수정
+    fun updateExerciseType() {
         viewModelScope.launch {
-            val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
+            val uid = application.userUid
 
             // 1) 이름 미입력 검사
             if (exerciseName.isBlank()) {
@@ -71,30 +61,29 @@ class ExerciseAddViewModel @Inject constructor(
             // 2) 중복 검사
             val available = exerciseService.isNameAvailable(uid, exerciseName)
             if (!available) {
-                showDuplicateNameError = true
+                showNameDuplicateError = true
                 return@launch
             }
 
-            // 3) 저장
+            // 3) 업데이트
             val model = ExerciseTypeModel(
-                id        = "",
+                id        = exerciseId,
                 name      = exerciseName,
                 category  = exerciseCategory,
                 memo      = exerciseMemo,
-                createdAt = System.currentTimeMillis()
+                createdAt = System.currentTimeMillis() // 필요 시 원본 createdAt 유지
             )
-            exerciseService.addExerciseType(uid, model)
+            exerciseService.updateExerciseType(uid, model)
 
-            // 4) 완료 후 화면 복귀
-            application.navHostController.navigate(ExerciseScreenName.EXERCISE_TYPE_SCREEN.name) {
-                popUpTo(ExerciseScreenName.EXERCISE_TYPE_SCREEN.name) { inclusive = true }
-                launchSingleTop = true
-            }
+            // 4) 확인 다이얼로그 표시
+            showSaveConfirm = true
         }
     }
 
+
     // 뒤로가기
-    fun onBackNavigation() {
+    fun onNavigateBack() {
+        showSaveConfirm = false
         application.navHostController.popBackStack()
     }
 

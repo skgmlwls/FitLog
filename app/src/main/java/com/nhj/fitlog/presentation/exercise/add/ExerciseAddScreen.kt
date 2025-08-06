@@ -8,12 +8,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.nhj.fitlog.component.FitLogAlertDialog
 import com.nhj.fitlog.component.FitLogButton
 import com.nhj.fitlog.component.FitLogOutlinedTextField
 import com.nhj.fitlog.component.FitLogTopBar
@@ -67,9 +72,31 @@ fun ExerciseAddScreen(
             )
 
             FitLogButton(
-                text = "저장",
-                onClick = { viewModel.onNavigateExerciseType() },
+                text = "추가하기",
+                onClick = { viewModel.addExercise() },
                 horizontalPadding = 0.dp,
+            )
+        }
+
+        // 이름 미입력 다이얼로그
+        if (viewModel.showNameBlankError) {
+            FitLogAlertDialog(
+                title = "입력 오류",
+                message = "운동 이름을 입력해주세요.",
+                onConfirm = { viewModel.showNameBlankError = false },
+                onDismiss = {  },
+                showCancelButton = false
+            )
+        }
+
+        // 이름 중복 다이얼로그
+        if (viewModel.showDuplicateNameError) {
+            FitLogAlertDialog(
+                title = "중복 오류",
+                message = "이미 같은 이름의 운동이 등록되어 있습니다.",
+                onConfirm = { viewModel.showDuplicateNameError = false },
+                onDismiss = {  },
+                showCancelButton = false
             )
         }
     }
