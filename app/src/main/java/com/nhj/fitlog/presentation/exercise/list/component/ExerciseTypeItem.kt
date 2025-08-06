@@ -14,12 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nhj.fitlog.domain.model.ExerciseTypeModel
 import com.nhj.fitlog.domain.vo.ExerciseTypeVO
+import com.nhj.fitlog.presentation.exercise.list.ExerciseTypeViewModel
 
 @Composable
 fun ExerciseTypeItem(
-    exercise: ExerciseTypeVO,
-    onClick: () -> Unit
+    exercise: ExerciseTypeModel,
+    onClick: () -> Unit,
+    viewModel: ExerciseTypeViewModel
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -61,22 +64,22 @@ fun ExerciseTypeItem(
                     modifier = Modifier
                         .background(Color(0xFF323232))
                 ) {
-                    DropdownMenuItem(
-                        text = {
-                            Text("수정", color = Color.White)
-                        },
-                        onClick = {
-                            expanded = false
-                            Log.d("ExerciseTypeScreen", "${exercise.name} 수정 클릭됨")
-                        }
-                    )
+//                    DropdownMenuItem(
+//                        text = {
+//                            Text("수정", color = Color.White)
+//                        },
+//                        onClick = {
+//                            expanded = false
+//                            Log.d("ExerciseTypeScreen", "${exercise.name} 수정 클릭됨")
+//                        }
+//                    )
                     DropdownMenuItem(
                         text = {
                             Text("삭제", color = Color.White)
                         },
                         onClick = {
                             expanded = false
-                            Log.d("ExerciseTypeScreen", "${exercise.name} 삭제 클릭됨")
+                            viewModel.deleteExercise(exercise.id)
                         }
                     )
                 }

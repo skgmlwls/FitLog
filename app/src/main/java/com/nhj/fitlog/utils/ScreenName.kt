@@ -32,6 +32,8 @@ enum class ExerciseScreenName {
     EXERCISE_ADD_SCREEN,
     // 운동 상세 스크린
     EXERCISE_DETAIL_SCREEN,
+    // 운동 수정 스크린
+    EXERCISE_DETAIL_EDIT_SCREEN,
     // 운동 이전 기록 스크린
     EXERCISE_HISTORY_SCREEN,
     // 운동 이전 기록 상세 스크린

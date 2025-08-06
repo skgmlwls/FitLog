@@ -24,6 +24,7 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.nhj.fitlog.presentation.exercise.add.ExerciseAddScreen
 import com.nhj.fitlog.presentation.exercise.detail.ExerciseDetailScreen
+import com.nhj.fitlog.presentation.exercise.edit.ExerciseDetailEditScreen
 import com.nhj.fitlog.presentation.exercise.history.ExerciseHistoryScreen
 import com.nhj.fitlog.presentation.exercise.history_detail.ExerciseHistoryDetailScreen
 import com.nhj.fitlog.presentation.exercise.list.ExerciseTypeScreen
@@ -178,7 +179,24 @@ fun MyApp() {
         // 운동 추가 화면
         composable(ExerciseScreenName.EXERCISE_ADD_SCREEN.name) { ExerciseAddScreen() }
         // 운동 상세 화면
-        composable(ExerciseScreenName.EXERCISE_DETAIL_SCREEN.name) { ExerciseDetailScreen() }
+        composable(
+            route = "${ExerciseScreenName.EXERCISE_DETAIL_SCREEN.name}/{id}"
+        ) {
+            val id = it.arguments?.getString("id") ?: ""
+
+            ExerciseDetailScreen(id)
+        }
+        // 운동 상세 수정 화면
+        composable(
+            route = "${ExerciseScreenName.EXERCISE_DETAIL_EDIT_SCREEN.name}/{id}/{name}/{category}/{memo}"
+        ) {
+            val id = it.arguments?.getString("id") ?: ""
+            val name = it.arguments?.getString("name") ?: ""
+            val category = it.arguments?.getString("category") ?: ""
+            val memo = it.arguments?.getString("memo") ?: ""
+
+            ExerciseDetailEditScreen(id, name, category, memo)
+        }
         // 운동 이전 기록 화면
         composable(ExerciseScreenName.EXERCISE_HISTORY_SCREEN.name) { ExerciseHistoryScreen() }
         // 운동 이전 기록 상세 화면

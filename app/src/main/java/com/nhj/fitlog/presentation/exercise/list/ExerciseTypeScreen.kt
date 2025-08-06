@@ -36,7 +36,7 @@ fun ExerciseTypeScreen(
     viewModel: ExerciseTypeViewModel = hiltViewModel()
 ) {
     LaunchedEffect(Unit) {
-        viewModel.loadExercises()   // 초기 데이터 로드
+        viewModel.startExerciseListener()   // 초기 데이터 로드
     }
 
     val selectedCategory by viewModel.selectedCategory.collectAsState()
@@ -88,7 +88,8 @@ fun ExerciseTypeScreen(
                 items(exerciseList) { exercise ->
                     ExerciseTypeItem(
                         exercise = exercise,
-                        onClick = { viewModel.onNavigateExerciseDetail() }
+                        onClick = { viewModel.onNavigateExerciseDetail(exercise) },
+                        viewModel
                     )
                 }
             }
