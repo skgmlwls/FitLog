@@ -40,6 +40,7 @@ fun ExerciseDetailEditScreen(
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(Unit) {
+        viewModel.originalName = name
         viewModel.exerciseId = id
         viewModel.exerciseName = name
         viewModel.exerciseCategory = category
