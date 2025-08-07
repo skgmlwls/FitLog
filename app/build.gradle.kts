@@ -80,6 +80,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.android.gms:play-services-auth:20.6.0")
+    implementation("com.google.firebase:firebase-storage")
 
     // DataStore Preferences
     implementation("androidx.datastore:datastore-preferences:1.0.0")

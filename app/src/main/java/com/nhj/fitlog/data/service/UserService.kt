@@ -1,5 +1,6 @@
 package com.nhj.fitlog.data.service
 
+import android.net.Uri
 import com.nhj.fitlog.data.repository.UserRepository
 import com.nhj.fitlog.domain.model.UserModel
 
@@ -50,5 +51,18 @@ class UserService(
     suspend fun updatePictureVisibility(uid: String, isPicturePublic: Boolean) {
         userRepository.updatePictureVisibility(uid, isPicturePublic)
     }
+
+    // 이미지 저장 후 URL 가져오기
+    suspend fun uploadProfileImage(uid: String, imageUri: Uri): String =
+        userRepository.uploadProfileImage(uid, imageUri)
+
+    // 프로필 이미지 URL 업데이터 래퍼
+    suspend fun updateProfileImage(uid: String, imageUrl: String) =
+        userRepository.updateProfileImage(uid, imageUrl)
+
+    // 닉네임 업데이트
+    suspend fun updateNickname(uid: String, nickname: String) =
+        userRepository.updateNickname(uid, nickname)
+
 
 }

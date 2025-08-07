@@ -22,6 +22,8 @@ class ExerciseDetailEditViewModel @Inject constructor(
 ) : ViewModel() {
     val application = context as FitLogApplication
 
+    // 원본 이름 저장 (수정 전)
+    var originalName by mutableStateOf("")
     // 운동 아이디
     var exerciseId by mutableStateOf("")
     // 운동 이름
@@ -58,11 +60,13 @@ class ExerciseDetailEditViewModel @Inject constructor(
                 return@launch
             }
 
-            // 2) 중복 검사
-            val available = exerciseService.isNameAvailable(uid, exerciseName)
-            if (!available) {
-                showNameDuplicateError = true
-                return@launch
+            // 2) 중복 검사 (이름이 변경된 경우에만)
+            if (exerciseName != originalName) {
+                val available = exerciseService.isNameAvailable(uid, exerciseName)
+                if (!available) {
+                    showNameDuplicateError = true
+                    return@launch
+                }
             }
 
             // 3) 업데이트

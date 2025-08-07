@@ -38,10 +38,12 @@ import com.nhj.fitlog.presentation.login.LoginScreen
 import com.nhj.fitlog.presentation.login.social_nickname.SocialNickNameScreen
 import com.nhj.fitlog.presentation.setting.SettingsScreen
 import com.nhj.fitlog.presentation.splash.SplashScreen
+import com.nhj.fitlog.presentation.user.profile.ProfileScreen
 import com.nhj.fitlog.ui.theme.FitLogTheme
 import com.nhj.fitlog.utils.ExerciseScreenName
 import com.nhj.fitlog.utils.JoinScreenName
 import com.nhj.fitlog.utils.MainScreenName
+import com.nhj.fitlog.utils.UserProfileScreenName
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -173,6 +175,8 @@ fun MyApp() {
         
         // 설정 화면
         composable(MainScreenName.MAIN_SCREEN_SETTING.name) { SettingsScreen() }
+        // 프로필 화면
+        composable(UserProfileScreenName.PROFILE_SCREEN.name) { ProfileScreen() }
 
         // 운동 종류 화면
         composable(ExerciseScreenName.EXERCISE_TYPE_SCREEN.name) { ExerciseTypeScreen() }
