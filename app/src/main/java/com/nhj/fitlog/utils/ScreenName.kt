@@ -39,3 +39,8 @@ enum class ExerciseScreenName {
     // 운동 이전 기록 상세 스크린
     EXERCISE_HISTORY_DETAIL_SCREEN,
 }
+
+enum class UserProfileScreenName {
+    // 프로필 화면
+    PROFILE_SCREEN,
+}

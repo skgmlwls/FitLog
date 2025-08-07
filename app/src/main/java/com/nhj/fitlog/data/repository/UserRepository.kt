@@ -1,6 +1,8 @@
 package com.nhj.fitlog.data.repository
 
+import android.net.Uri
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.nhj.fitlog.domain.vo.UserVO
 import kotlinx.coroutines.tasks.await
 
@@ -84,6 +86,37 @@ class UserRepository {
         db.collection("users")
             .document(uid)
             .update("picturePublic", isPicturePublic)
+            .await()
+    }
+
+    // 이미지 저장 후 URL 가져오기
+    suspend fun uploadProfileImage(uid: String, imageUri: Uri) : String {
+        val storageRef = FirebaseStorage
+            .getInstance()
+            .getReference("ProfileImage/$uid.jpg")
+
+        // 1) 파일 업로드
+        storageRef.putFile(imageUri).await()
+
+        // 2) 다운로드 URL 취득
+        val imageURL = storageRef.downloadUrl.await().toString()
+
+        return imageURL
+    }
+
+    // 프로필 이미지 URL 업데이트
+    suspend fun updateProfileImage(uid: String, imageUrl: String) {
+        db.collection("users")
+            .document(uid)
+            .update("profileImageUrl", imageUrl)
+            .await()
+    }
+
+    // 닉네임 업데이트
+    suspend fun updateNickname(uid: String, nickname: String) {
+        db.collection("users")
+            .document(uid)
+            .update("nickname", nickname)
             .await()
     }
 

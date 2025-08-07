@@ -11,6 +11,7 @@ import com.nhj.fitlog.FitLogApplication
 import com.nhj.fitlog.data.service.UserService
 import com.nhj.fitlog.domain.model.UserModel
 import com.nhj.fitlog.utils.MainScreenName
+import com.nhj.fitlog.utils.UserProfileScreenName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
@@ -51,7 +52,7 @@ class SettingsViewModel @Inject constructor(
 
     // 프로필 화면으로 이동
     fun onNavigateToProfile() {
-        // application.navHostController.navigate("PROFILE_SCREEN")  // 실제 경로로 교체
+        application.navHostController.navigate(UserProfileScreenName.PROFILE_SCREEN.name)
     }
 
     // 로그아웃
