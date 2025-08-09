@@ -96,4 +96,7 @@ dependencies {
     // 로딩
     implementation("com.airbnb.android:lottie-compose:6.2.0")
 
+    // 드래그 엔 드롭
+    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
+
 }

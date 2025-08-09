@@ -36,6 +36,9 @@ import com.nhj.fitlog.presentation.join.JoinScreen4
 import com.nhj.fitlog.presentation.join.JoinViewModel
 import com.nhj.fitlog.presentation.login.LoginScreen
 import com.nhj.fitlog.presentation.login.social_nickname.SocialNickNameScreen
+import com.nhj.fitlog.presentation.routine.add.RoutineAddScreen
+import com.nhj.fitlog.presentation.routine.exercise_list.RoutineAddListScreen
+import com.nhj.fitlog.presentation.routine.list.RoutineListScreen
 import com.nhj.fitlog.presentation.setting.SettingsScreen
 import com.nhj.fitlog.presentation.splash.SplashScreen
 import com.nhj.fitlog.presentation.user.profile.ProfileScreen
@@ -43,6 +46,7 @@ import com.nhj.fitlog.ui.theme.FitLogTheme
 import com.nhj.fitlog.utils.ExerciseScreenName
 import com.nhj.fitlog.utils.JoinScreenName
 import com.nhj.fitlog.utils.MainScreenName
+import com.nhj.fitlog.utils.RoutineScreenName
 import com.nhj.fitlog.utils.UserProfileScreenName
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -206,6 +210,13 @@ fun MyApp() {
         // 운동 이전 기록 상세 화면
         composable(ExerciseScreenName.EXERCISE_HISTORY_DETAIL_SCREEN.name) { ExerciseHistoryDetailScreen() }
 
+        // 루틴 리스트 화면
+        composable(RoutineScreenName.ROUTINE_LIST_SCREEN.name) { RoutineListScreen() }
+        // 루틴 추가 화면
+        composable(RoutineScreenName.ROUTINE_ADD_SCREEN.name) { RoutineAddScreen() }
+        // 루틴 추가 운동 리스트 화면
+        composable(RoutineScreenName.ROUTINE_ADD_LIST_SCREEN.name) { RoutineAddListScreen() }
+        // 루틴 상세 화면
     }
 }
 

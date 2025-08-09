@@ -24,12 +24,31 @@ users (컬렉션)
     │       ├─ name: "푸쉬업"
     │       ├─ category: "가슴"
     │       └─ createdAt: 1722031749000
-    ├─ routines (서브컬렉션)
-    │   └─ {routineId} (문서)
-    │       ├─ routineId: "routine001"
-    │       ├─ name: "가슴 루틴"
-    │       ├─ exercises: ["pushup_001", "benchpress_001"]
-    │       └─ createdAt: 1722031749000
+    ├─ routines (COL)
+    │  └─ {routineId} (DOC)
+    │     ├─ routineId: string
+    │     ├─ name: string                   // 루틴 이름
+    │     ├─ memo: string                   // 루틴 메모
+    │     ├─ exerciseCount: number          // 운동 항목 개수
+    │     └─ createdAt: number              // millis
+    │
+    │     └─ exercises (SUBCOL)             // 루틴에 포함된 운동 카드 목록
+    │        └─ {itemId} (DOC)
+    │           ├─ itemId: string
+    │           ├─ exerciseTypeId: string   // users/{uid}/exerciseType/{id} 참조
+    │           ├─ exerciseName: string     // ✨ 표시용 denorm(이름 변경 시 UI 즉시)
+    │           ├─ order: number            // 0,1,2,... (드래그 순서)
+    │           ├─ note: string             // 운동 카드 상단 메모(선택)
+    │           ├─ setCount: number         // 세트 개수
+    │           └─ createdAt: number
+    │
+    │           └─ sets (SUBCOL)            // 각 운동의 세트 행들
+    │              └─ {setId} (DOC)
+    │                 ├─ setId: string
+    │                 ├─ setNumber: number  // 1,2,3... (표시에 사용)
+    │                 ├─ weight: number     // kg
+    │                 ├─ reps: number       // 횟수
+    │                 └─ createdAt: number
     ├─ friends (서브컬렉션)
     │   └─ {friendUid} (문서)
     │       ├─ friendUid: "friend456"

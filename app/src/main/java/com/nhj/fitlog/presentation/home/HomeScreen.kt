@@ -131,7 +131,7 @@ fun HomeScreen(
                         iconVector = Icons.Default.Cached,
                         label = "루틴 목록",
                         modifier = Modifier.weight(1f),
-                        onClick = {  }
+                        onClick = { viewModel.onNavigateToRoutineList() }
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     FitLogHomeButton(

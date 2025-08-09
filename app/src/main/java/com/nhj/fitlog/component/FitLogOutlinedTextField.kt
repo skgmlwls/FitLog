@@ -21,7 +21,7 @@ fun FitLogOutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = {
-            Text(text = label)
+            Text(text = label, color = Color.LightGray)
         },
         modifier = modifier,
         singleLine = singleLine,

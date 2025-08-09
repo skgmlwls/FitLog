@@ -40,6 +40,17 @@ enum class ExerciseScreenName {
     EXERCISE_HISTORY_DETAIL_SCREEN,
 }
 
+enum class RoutineScreenName {
+    // 루틴 리스트
+    ROUTINE_LIST_SCREEN,
+    // 루틴 추가
+    ROUTINE_ADD_SCREEN,
+    // 루틴 추가 운동 리스트
+    ROUTINE_ADD_LIST_SCREEN,
+    // 루틴 상세
+    ROUTINE_DETAIL_SCREEN,
+}
+
 enum class UserProfileScreenName {
     // 프로필 화면
     PROFILE_SCREEN,
