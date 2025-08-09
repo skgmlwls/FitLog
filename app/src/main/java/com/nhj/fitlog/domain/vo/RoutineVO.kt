@@ -1,13 +1,40 @@
 package com.nhj.fitlog.domain.vo
 
+import com.nhj.fitlog.domain.model.RoutineExerciseModel
 import com.nhj.fitlog.domain.model.RoutineModel
+import com.nhj.fitlog.domain.model.RoutineSetModel
 
-// UI에서 사용할 루틴 데이터 VO 클래스
+/** 루틴 (Firebase) */
 data class RoutineVO(
-    val routineId: String,                  // 루틴 고유 ID
-    val name: String,                       // 루틴 이름
-    val exercises: List<String>,            // 운동 ID 목록
-    val createdAt: Long                     // 생성 시간
+    var routineId: String = "",
+    var name: String = "",
+    var memo: String = "",
+    var exerciseCount: Int = 0,
+    var createdAt: Long = System.currentTimeMillis()
 ) {
-    fun toModel() = RoutineModel(routineId, name, exercises, createdAt)
+    fun toModel() = RoutineModel(routineId, name, memo, exerciseCount, createdAt)
+}
+
+/** 루틴의 운동 항목 (Firebase) */
+data class RoutineExerciseVO(
+    var itemId: String = "",
+    var exerciseTypeId: String = "",
+    var exerciseName: String = "",
+    var order: Int = 0,
+    var memo: String = "",
+    var setCount: Int = 0,
+    var createdAt: Long = System.currentTimeMillis()
+) {
+    fun toModel() = RoutineExerciseModel(itemId, exerciseTypeId, exerciseName, order, memo, setCount, createdAt)
+}
+
+/** 세트 (Firebase) */
+data class RoutineSetVO(
+    var setId: String = "",
+    var setNumber: Int = 1,
+    var weight: Double = 0.0,
+    var reps: Int = 0,
+    var createdAt: Long = System.currentTimeMillis()
+) {
+    fun toModel() = RoutineSetModel(setId, setNumber, weight, reps, createdAt)
 }

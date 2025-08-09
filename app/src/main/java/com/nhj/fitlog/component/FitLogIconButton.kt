@@ -20,13 +20,14 @@ fun FitLogIconButton(
     text: String,
     icon: ImageVector,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    color: Color = Color(0xFF47A6FF)
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
-            .background(Color(0xFF448AFF), shape = RoundedCornerShape(12.dp))
+            .background(color, shape = RoundedCornerShape(12.dp))
             .clickable { onClick() }
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,

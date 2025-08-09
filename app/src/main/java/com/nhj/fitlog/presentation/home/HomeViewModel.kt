@@ -16,6 +16,7 @@ import com.nhj.fitlog.domain.vo.ExerciseSetVO
 import com.nhj.fitlog.domain.vo.UserVO
 import com.nhj.fitlog.utils.ExerciseScreenName
 import com.nhj.fitlog.utils.MainScreenName
+import com.nhj.fitlog.utils.RoutineScreenName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
@@ -129,5 +130,11 @@ class HomeViewModel @Inject constructor(
     fun onNavigateToExerciseTypeScreen() {
         application.navHostController.navigate(ExerciseScreenName.EXERCISE_TYPE_SCREEN.name)
     }
+
+    // 루틴 리스트 화면으로 이동
+    fun onNavigateToRoutineList() {
+        application.navHostController.navigate(RoutineScreenName.ROUTINE_LIST_SCREEN.name)
+    }
+
 
 }
