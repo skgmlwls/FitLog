@@ -64,15 +64,6 @@ fun ExerciseTypeItem(
                     modifier = Modifier
                         .background(Color(0xFF323232))
                 ) {
-//                    DropdownMenuItem(
-//                        text = {
-//                            Text("수정", color = Color.White)
-//                        },
-//                        onClick = {
-//                            expanded = false
-//                            Log.d("ExerciseTypeScreen", "${exercise.name} 수정 클릭됨")
-//                        }
-//                    )
                     DropdownMenuItem(
                         text = {
                             Text("삭제", color = Color.White)

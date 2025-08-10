@@ -86,10 +86,11 @@ class ExerciseAddViewModel @Inject constructor(
             exerciseService.addExerciseType(uid, model)
 
             // 4) 완료 후 화면 복귀
-            application.navHostController.navigate(ExerciseScreenName.EXERCISE_TYPE_SCREEN.name) {
-                popUpTo(ExerciseScreenName.EXERCISE_TYPE_SCREEN.name) { inclusive = true }
-                launchSingleTop = true
-            }
+//            application.navHostController.navigate(ExerciseScreenName.EXERCISE_TYPE_SCREEN.name) {
+//                popUpTo(ExerciseScreenName.EXERCISE_TYPE_SCREEN.name) { inclusive = true }
+//                launchSingleTop = true
+//            }
+            application.navHostController.popBackStack()
         }
     }
 

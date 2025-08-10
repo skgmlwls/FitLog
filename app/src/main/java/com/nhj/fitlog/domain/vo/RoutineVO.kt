@@ -20,12 +20,13 @@ data class RoutineExerciseVO(
     var itemId: String = "",
     var exerciseTypeId: String = "",
     var exerciseName: String = "",
+    var exerciseCategory: String = "",
     var order: Int = 0,
-    var memo: String = "",
+    var exerciseMemo: String = "",
     var setCount: Int = 0,
     var createdAt: Long = System.currentTimeMillis()
 ) {
-    fun toModel() = RoutineExerciseModel(itemId, exerciseTypeId, exerciseName, order, memo, setCount, createdAt)
+    fun toModel() = RoutineExerciseModel(itemId, exerciseTypeId, exerciseName, exerciseCategory, order, exerciseMemo, setCount, createdAt)
 }
 
 /** 세트 (Firebase) */

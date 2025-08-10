@@ -49,6 +49,8 @@ enum class RoutineScreenName {
     ROUTINE_ADD_LIST_SCREEN,
     // 루틴 상세
     ROUTINE_DETAIL_SCREEN,
+    // 루틴 수정
+    ROUTINE_DETAIL_EDIT_SCREEN,
 }
 
 enum class UserProfileScreenName {

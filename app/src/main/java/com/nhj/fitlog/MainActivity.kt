@@ -37,6 +37,8 @@ import com.nhj.fitlog.presentation.join.JoinViewModel
 import com.nhj.fitlog.presentation.login.LoginScreen
 import com.nhj.fitlog.presentation.login.social_nickname.SocialNickNameScreen
 import com.nhj.fitlog.presentation.routine.add.RoutineAddScreen
+import com.nhj.fitlog.presentation.routine.detail.RoutineDetailScreen
+import com.nhj.fitlog.presentation.routine.detail_edit.RoutineDetailEditScreen
 import com.nhj.fitlog.presentation.routine.exercise_list.RoutineAddListScreen
 import com.nhj.fitlog.presentation.routine.list.RoutineListScreen
 import com.nhj.fitlog.presentation.setting.SettingsScreen
@@ -217,6 +219,21 @@ fun MyApp() {
         // 루틴 추가 운동 리스트 화면
         composable(RoutineScreenName.ROUTINE_ADD_LIST_SCREEN.name) { RoutineAddListScreen() }
         // 루틴 상세 화면
+        composable(
+            route = "${RoutineScreenName.ROUTINE_DETAIL_SCREEN.name}/{routineId}"
+        ) {
+            val routineId = it.arguments?.getString("routineId") ?: ""
+
+            RoutineDetailScreen(routineId)
+        }
+        // 루틴 수정 화면
+        composable(
+            route = "${RoutineScreenName.ROUTINE_DETAIL_EDIT_SCREEN.name}/{routineId}"
+        ) {
+            val routineId = it.arguments?.getString("routineId") ?: ""
+
+            RoutineDetailEditScreen(routineId)
+        }
     }
 }
 

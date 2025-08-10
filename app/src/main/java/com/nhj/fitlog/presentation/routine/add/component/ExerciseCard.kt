@@ -1,6 +1,8 @@
 package com.nhj.fitlog.presentation.routine.add.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
@@ -39,8 +43,13 @@ import com.nhj.fitlog.presentation.routine.add.RoutineExerciseWithSets
 import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.ArrowDropUp
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -59,22 +68,36 @@ fun ExerciseCard(
     onWeightChange: (String, String) -> Unit,
     onRepsChange: (String, String) -> Unit,
     onDeleteExercise: () -> Unit,
-    dragHandle: (Modifier) -> Modifier = { it } // 🔹 기본은 no-op
+    onReorderClick: () -> Unit,
 ) {
+    // 드롭 다운 메뉴 상태
     var menuExpanded by remember { mutableStateOf(false) }
 
-    var weight by remember { mutableStateOf("") }
+    val hasMemo = ui.exercise.exerciseMemo.isNotBlank()
+    var showMemo by rememberSaveable(ui.exercise.exerciseName) { mutableStateOf(false) } // or ui.exercise.itemId
 
     OutlinedCard(colors = CardDefaults.outlinedCardColors(containerColor = Color(0xFF262626))) {
         Column(Modifier.padding(12.dp)) {
             // 헤더: 번호 + 운동명 + 메뉴
             Row(verticalAlignment = Alignment.CenterVertically) {
-                FitLogText(
-                    text = "$index. ${ui.exercise.exerciseName}",
-                    color = Color.White,
-                    fontSize = 18
-                )
-                Spacer(Modifier.weight(1f))
+
+                Column(
+                    Modifier.weight(1f),
+                ) {
+                    FitLogText(
+                        text = "$index. ${ui.exercise.exerciseName}",
+                        color = Color.White,
+                        fontSize = 20
+                    )
+
+                    Spacer(Modifier.height(5.dp))
+
+                    FitLogText(
+                        text = "       ${ui.exercise.exerciseCategory} 운동",
+                        color = Color.LightGray,
+                        fontSize = 12
+                    )
+                }
 
 
                 Box {
@@ -97,13 +120,47 @@ fun ExerciseCard(
                             text = { Text("순서 변경", color = Color.White) },
                             onClick = {
                                 menuExpanded = false
-                                // 순서 변경 로직
+                                onReorderClick()
                             }
                         )
                     }
                 }
             }
 
+            if (hasMemo) {
+                Row(
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight()
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null // ✅ ripple 제거
+                        ) {
+                            showMemo = !showMemo
+                        },
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = if (showMemo) Icons.Default.ArrowDropUp else Icons.Default.ArrowDropDown,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text(
+                        text = if (showMemo) "메모 접기" else "메모 보기",
+                        color = Color.White
+                    )
+                }
+
+                if (showMemo) {
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = ui.exercise.exerciseMemo,
+                        color = Color.White,
+                        modifier = Modifier.fillMaxWidth().padding(start = 12.dp, end = 12.dp)
+                    )
+                }
+            }
 
             Spacer(Modifier.height(8.dp))
 

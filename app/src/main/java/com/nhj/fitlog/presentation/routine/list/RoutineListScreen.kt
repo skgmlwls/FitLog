@@ -15,7 +15,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.nhj.fitlog.component.FitLogTopBar
 import com.nhj.fitlog.presentation.routine.list.component.RoutineItem
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RoutineListScreen(
     viewModel: RoutineListViewModel = hiltViewModel()
@@ -51,7 +50,7 @@ fun RoutineListScreen(
             items(viewModel.routines.value, key = { it.routineId }) { routine ->
                 RoutineItem(
                     routine = routine,
-                    onClick = { viewModel.onNavigateRoutineDetail() },
+                    onClick = { viewModel.onNavigateRoutineDetail(routine.routineId) },
                     viewModel = viewModel
                 )
             }
