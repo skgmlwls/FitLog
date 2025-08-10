@@ -19,12 +19,13 @@ data class RoutineExerciseModel(
     var itemId: String = "",
     var exerciseTypeId: String = "",
     var exerciseName: String = "",
+    var exerciseCategory: String = "",
     var order: Int = 0,
-    var memo: String = "",
+    var exerciseMemo: String = "",
     var setCount: Int = 0,
     var createdAt: Long = System.currentTimeMillis()
 ) {
-    fun toVO() = RoutineExerciseVO(itemId, exerciseTypeId, exerciseName, order, memo, setCount, createdAt)
+    fun toVO() = RoutineExerciseVO(itemId, exerciseTypeId, exerciseName, exerciseCategory, order, exerciseMemo, setCount, createdAt)
 }
 
 /** 세트 (UI) */

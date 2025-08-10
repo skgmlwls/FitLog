@@ -4,10 +4,12 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.nhj.fitlog.FitLogApplication
+import com.nhj.fitlog.data.service.RoutineService
 import com.nhj.fitlog.domain.model.RoutineModel
 import com.nhj.fitlog.domain.vo.RoutineVO
 import com.nhj.fitlog.utils.RoutineScreenName
@@ -15,11 +17,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RoutineListViewModel @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val routineService: RoutineService
 ) : ViewModel() {
 
     private val application = context as FitLogApplication
@@ -53,26 +57,28 @@ class RoutineListViewModel @Inject constructor(
             }
     }
 
-    // 루틴 삭제
+    // 루틴 삭제 (서비스 경유로 exercises/sets까지 모두 삭제)
     fun deleteRoutine(routineId: String) {
-        val db = FirebaseFirestore.getInstance()
         val uid = application.userUid
-        db.collection("users").document(uid)
-            .collection("routines").document(routineId)
-            .delete()
-            .addOnFailureListener { Log.e("RoutineListVM", "delete failed", it) }
+        viewModelScope.launch {
+            try {
+                routineService.deleteRoutine(uid, routineId) // ✅ 여기서 하위 문서까지 삭제됨
+                Log.d("RoutineListVM", "deleted routine: $routineId")
+            } catch (t: Throwable) {
+                Log.e("RoutineListVM", "delete failed", t)
+            }
+        }
     }
 
     // 네비게이션
     fun onNavigateRoutineAdd() {
         application.navHostController.navigate(RoutineScreenName.ROUTINE_ADD_SCREEN.name)
     }
-    fun onNavigateRoutineDetail() {
-        // application.navHostController.navigate("ROUTINE_DETAIL_SCREEN/$routineId")
+    // 루틴 상세
+    fun onNavigateRoutineDetail(routineId: String) {
+        application.navHostController.navigate("${RoutineScreenName.ROUTINE_DETAIL_SCREEN.name}/$routineId")
     }
-    fun onNavigateRoutineReorder(routineId: String) {
-        application.navHostController.navigate("ROUTINE_REORDER_SCREEN/$routineId")
-    }
+    // 뒤로가기
     fun onBackNavigation() {
         application.navHostController.popBackStack()
     }

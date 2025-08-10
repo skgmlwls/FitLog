@@ -5,11 +5,16 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.nhj.fitlog.FitLogApplication
+import com.nhj.fitlog.data.service.RoutineService
 import com.nhj.fitlog.domain.model.RoutineExerciseModel
+import com.nhj.fitlog.domain.model.RoutineModel
 import com.nhj.fitlog.domain.model.RoutineSetModel
+import com.nhj.fitlog.utils.RoutineScreenName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
@@ -21,7 +26,8 @@ data class RoutineExerciseWithSets(
 
 @HiltViewModel
 class RoutineAddViewModel @Inject constructor(
-    @ApplicationContext context: Context
+    @ApplicationContext context: Context,
+    private val routineService: RoutineService
 ) : ViewModel() {
 
     // 공개 프로퍼티만 사용
@@ -33,9 +39,50 @@ class RoutineAddViewModel @Inject constructor(
     // 화면 표시용: 운동 카드 목록 (각 카드에 세트 포함)
     val routineExerciseList = mutableStateOf<List<RoutineExerciseWithSets>>(emptyList())
 
+    // 저장 에러 상태
+    var showNameBlankError = mutableStateOf(false)
+    var showDuplicateNameError = mutableStateOf(false)
+
+    fun saveRoutine() {
+        val uid = application.userUid
+        viewModelScope.launch {
+            // 1) 이름 유효성
+            val routineName = name.value.trim()
+            if (routineName.isBlank()) {
+                showNameBlankError.value = true
+                return@launch
+            }
+
+            // 2) 중복 체크
+            val available = routineService.isNameAvailable(uid, routineName)
+            if (!available) {
+                showDuplicateNameError.value = true
+                return@launch
+            }
+
+            // 3) 루틴 본문 만들기
+            val routineModel = RoutineModel(
+                routineId = "",
+                name = routineName,
+                memo = memo.value,
+                exerciseCount = routineExerciseList.value.size,
+                createdAt = System.currentTimeMillis()
+            )
+
+            // 4) 저장 (루틴 + exercises + sets)
+            val items = routineExerciseList.value
+            val newId = routineService.addRoutine(uid, routineModel, items)
+
+            // 5) 저장 후 뒤로가기/토스트 등
+            // application.showToast("저장되었습니다")
+            application.navHostController.popBackStack()
+        }
+
+    }
+
     /** + 버튼 → 운동 선택 화면 이동 */
     fun onAddExerciseClick() {
-        application.navHostController.navigate("ROUTINE_ADD_LIST_SCREEN")
+        application.navHostController.navigate(RoutineScreenName.ROUTINE_ADD_LIST_SCREEN.name)
     }
 
     /** 선택 화면에서 돌아오면 savedStateHandle 값을 소비하여 카드 추가 */
@@ -43,6 +90,8 @@ class RoutineAddViewModel @Inject constructor(
         val handle = application.navHostController.currentBackStackEntry?.savedStateHandle ?: return
         val typeId = handle.get<String>("selectedExerciseId") ?: return
         val typeName = handle.get<String>("selectedExerciseName") ?: return
+        val typeCategory = handle.get<String>("selectedExerciseCategory") ?: return
+        val typeMemo = handle.get<String>("selectedExerciseMemo") ?: return
         handle.remove<String>("selectedExerciseId")
         handle.remove<String>("selectedExerciseName")
         handle.remove<String>("selectedExerciseCategory")
@@ -53,8 +102,9 @@ class RoutineAddViewModel @Inject constructor(
             itemId = UUID.randomUUID().toString(),
             exerciseTypeId = typeId,
             exerciseName = typeName,
+            exerciseCategory = typeCategory,
             order = routineExerciseList.value.size,
-            memo = "",
+            exerciseMemo = typeMemo,
             setCount = 3,
             createdAt = now
         )
@@ -113,8 +163,10 @@ class RoutineAddViewModel @Inject constructor(
         Log.d("TEST", list.joinToString("\n") { ex ->
             """
         운동명: ${ex.exercise.exerciseName}
+        운동카테고리: ${ex.exercise.exerciseCategory}
+        운동메모: ${ex.exercise.exerciseMemo}
         세트목록:
-        ${ex.sets.joinToString("\n") { s -> " - 세트 ${s.setNumber}: ${s.weight}kg x ${s.reps}회" }}
+        ${ex.sets.joinToString("\n") { s -> " - uid ${s.setId} 세트 ${s.setNumber}: ${s.weight}kg x ${s.reps}회" }}
         """.trimIndent()
         })
     }
@@ -130,8 +182,10 @@ class RoutineAddViewModel @Inject constructor(
         Log.d("TEST", list.joinToString("\n") { ex ->
             """
         운동명: ${ex.exercise.exerciseName}
+        운동카테고리: ${ex.exercise.exerciseCategory}
+        운동메모: ${ex.exercise.exerciseMemo}
         세트목록:
-        ${ex.sets.joinToString("\n") { s -> " - 세트 ${s.setNumber}: ${s.weight}kg x ${s.reps}회" }}
+        ${ex.sets.joinToString("\n") { s -> " - uid ${s.setId} 세트 ${s.setNumber}: ${s.weight}kg x ${s.reps}회" }}
         """.trimIndent()
         })
     }
@@ -147,15 +201,18 @@ class RoutineAddViewModel @Inject constructor(
         routineExerciseList.value = list
     }
 
-    // 운동 순서 변경
-    fun moveExercise(from: Int, to: Int) {
-        val list = routineExerciseList.value.toMutableList()
-        if (from !in list.indices || to !in list.indices) return
-        val item = list.removeAt(from)
-        list.add(to, item)
+    fun applyReorder(newOrderItemIds: List<String>) {
+        val curr = routineExerciseList.value
+        // id 기준으로 현재 아이템을 맵핑
+        val byId = curr.associateBy { it.exercise.itemId }
+        // 새 순서대로 재배열 (누락/불일치는 필터)
+        val reordered = newOrderItemIds.mapNotNull { byId[it] }.toMutableList()
+        // 혹시 시트에서 빠진 항목이 있다면 맨 뒤에 보존
+        curr.forEach { if (it.exercise.itemId !in newOrderItemIds) reordered.add(it) }
         // order 재정렬
-        list.forEachIndexed { i, ex -> ex.exercise.order = i }
-        routineExerciseList.value = list
+        reordered.forEachIndexed { i, ex -> ex.exercise.order = i }
+        routineExerciseList.value = reordered
     }
-    
+
+
 }

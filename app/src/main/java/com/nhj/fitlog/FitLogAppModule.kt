@@ -1,8 +1,10 @@
 package com.nhj.fitlog
 
 import com.nhj.fitlog.data.repository.ExerciseRepository
+import com.nhj.fitlog.data.repository.RoutineRepository
 import com.nhj.fitlog.data.repository.UserRepository
 import com.nhj.fitlog.data.service.ExerciseService
+import com.nhj.fitlog.data.service.RoutineService
 import com.nhj.fitlog.data.service.UserService
 import dagger.Module
 import dagger.Provides
@@ -44,6 +46,20 @@ object FitLogAppModule {
         exerciseRepository: ExerciseRepository
     ): ExerciseService {
         return ExerciseService(exerciseRepository)
+    }
+    ///////////////////////////////////////////////
+
+    // 루틴 관련 ////////////////////////////////////
+    @Provides @Singleton
+    fun provideRoutineRepository(): RoutineRepository {
+        return RoutineRepository()
+    }
+
+    @Provides @Singleton
+    fun provideRoutineService(
+        routineRepository: RoutineRepository
+    ): RoutineService {
+        return RoutineService(routineRepository)
     }
     ///////////////////////////////////////////////
 
