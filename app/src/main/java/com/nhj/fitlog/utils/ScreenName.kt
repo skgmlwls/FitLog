@@ -53,6 +53,13 @@ enum class RoutineScreenName {
     ROUTINE_DETAIL_EDIT_SCREEN,
 }
 
+enum class RecordScreenName {
+    // 운동 기록
+    RECORD_CALENDAR_SCREEN,
+    // 운동 기록 상세
+    RECORD_DETAIL_SCREEN,
+}
+
 enum class UserProfileScreenName {
     // 프로필 화면
     PROFILE_SCREEN,

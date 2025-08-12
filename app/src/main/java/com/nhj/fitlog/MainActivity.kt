@@ -36,6 +36,7 @@ import com.nhj.fitlog.presentation.join.JoinScreen4
 import com.nhj.fitlog.presentation.join.JoinViewModel
 import com.nhj.fitlog.presentation.login.LoginScreen
 import com.nhj.fitlog.presentation.login.social_nickname.SocialNickNameScreen
+import com.nhj.fitlog.presentation.record.record_calendar.RecordCalendarScreen
 import com.nhj.fitlog.presentation.routine.add.RoutineAddScreen
 import com.nhj.fitlog.presentation.routine.detail.RoutineDetailScreen
 import com.nhj.fitlog.presentation.routine.detail_edit.RoutineDetailEditScreen
@@ -48,6 +49,7 @@ import com.nhj.fitlog.ui.theme.FitLogTheme
 import com.nhj.fitlog.utils.ExerciseScreenName
 import com.nhj.fitlog.utils.JoinScreenName
 import com.nhj.fitlog.utils.MainScreenName
+import com.nhj.fitlog.utils.RecordScreenName
 import com.nhj.fitlog.utils.RoutineScreenName
 import com.nhj.fitlog.utils.UserProfileScreenName
 import dagger.hilt.android.AndroidEntryPoint
@@ -234,6 +236,10 @@ fun MyApp() {
 
             RoutineDetailEditScreen(routineId)
         }
+
+        // 운동 기록 목록 화면
+        composable(RecordScreenName.RECORD_CALENDAR_SCREEN.name) { RecordCalendarScreen() }
+
     }
 }
 

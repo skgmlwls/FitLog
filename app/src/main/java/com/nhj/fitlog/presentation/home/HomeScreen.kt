@@ -115,7 +115,7 @@ fun HomeScreen(
                         iconVector = Icons.Default.Edit,
                         label = "운동 기록",
                         modifier = Modifier.weight(1f),
-                        onClick = {  }
+                        onClick = { viewModel.onNavigateToRecordCalendar() }
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     FitLogHomeButton(
