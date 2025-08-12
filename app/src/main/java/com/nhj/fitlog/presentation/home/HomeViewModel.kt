@@ -3,8 +3,6 @@ package com.nhj.fitlog.presentation.home
 import android.content.Context
 import android.util.Log
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,10 +14,10 @@ import com.nhj.fitlog.domain.vo.ExerciseSetVO
 import com.nhj.fitlog.domain.vo.UserVO
 import com.nhj.fitlog.utils.ExerciseScreenName
 import com.nhj.fitlog.utils.MainScreenName
+import com.nhj.fitlog.utils.RecordScreenName
 import com.nhj.fitlog.utils.RoutineScreenName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -135,6 +133,12 @@ class HomeViewModel @Inject constructor(
     fun onNavigateToRoutineList() {
         application.navHostController.navigate(RoutineScreenName.ROUTINE_LIST_SCREEN.name)
     }
+
+    // 기록 켈린더 화면으로 이동
+    fun onNavigateToRecordCalendar() {
+        application.navHostController.navigate(RecordScreenName.RECORD_CALENDAR_SCREEN.name)
+    }
+
 
 
 }

@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.nhj.fitlog.FitLogApplication
-import com.nhj.fitlog.domain.vo.ExerciseRecordVO
 import com.nhj.fitlog.utils.ExerciseScreenName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
