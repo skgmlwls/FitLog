@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.nhj.fitlog.component.*
 import com.nhj.fitlog.presentation.routine.add.component.ExerciseCard
 import com.nhj.fitlog.presentation.routine.add.component.RoutineReorderBottomSheet
+import com.nhj.fitlog.utils.RoutineExerciseWithSets
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -86,7 +87,7 @@ fun RoutineDetailEditScreen(
                     viewModel.items.value.forEachIndexed { idx, exUi ->
                         ExerciseCard(
                             index = idx + 1,
-                            ui = com.nhj.fitlog.presentation.routine.add.RoutineExerciseWithSets(
+                            ui = RoutineExerciseWithSets(
                                 exercise = exUi.exercise,
                                 sets = exUi.sets
                             ),

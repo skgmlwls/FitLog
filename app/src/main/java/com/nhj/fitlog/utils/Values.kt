@@ -1,5 +1,9 @@
 package com.nhj.fitlog.utils
 
+import androidx.compose.runtime.mutableStateListOf
+import com.nhj.fitlog.domain.model.RoutineExerciseModel
+import com.nhj.fitlog.domain.model.RoutineSetModel
+
 enum class JoinMethod(val methodName: String) {
     PHONE("Phone"),
     GOOGLE("Google"),
@@ -16,3 +20,12 @@ enum class ExerciseCategories(val num: Int, val str: String) {
     ABDOMEN(6, "복부"),
     ETC(7, "기타")
 }
+
+// 운동 강도
+enum class RecordIntensity { HARD, NORMAL, EASY }
+
+/** UI에서 다루기 편하도록 '운동 + 세트들'을 묶은 모델 */
+data class RoutineExerciseWithSets(
+    val exercise: RoutineExerciseModel,
+    val sets: MutableList<RoutineSetModel> = mutableStateListOf()
+)

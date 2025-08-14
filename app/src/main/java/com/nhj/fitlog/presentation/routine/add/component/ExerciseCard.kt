@@ -39,7 +39,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.nhj.fitlog.component.FitLogText
-import com.nhj.fitlog.presentation.routine.add.RoutineExerciseWithSets
 import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -56,6 +55,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import com.nhj.fitlog.component.FitLogButton
 import com.nhj.fitlog.component.FitLogIconButton
+import com.nhj.fitlog.utils.RoutineExerciseWithSets
 
 
 /** 스샷과 동일한 레이아웃의 운동 카드 */

@@ -54,10 +54,13 @@ enum class RoutineScreenName {
 }
 
 enum class RecordScreenName {
-    // 운동 기록
+    // 운동 기록 캘린더 화면
     RECORD_CALENDAR_SCREEN,
-    // 운동 기록 상세
+    // 운동 기록 화면
+    RECORD_EXERCISE_SCREEN,
+    // 운동 기록 상세 화면
     RECORD_DETAIL_SCREEN,
+
 }
 
 enum class UserProfileScreenName {

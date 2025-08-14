@@ -37,6 +37,7 @@ import com.nhj.fitlog.presentation.join.JoinViewModel
 import com.nhj.fitlog.presentation.login.LoginScreen
 import com.nhj.fitlog.presentation.login.social_nickname.SocialNickNameScreen
 import com.nhj.fitlog.presentation.record.record_calendar.RecordCalendarScreen
+import com.nhj.fitlog.presentation.record.record_exercise.RecordExerciseScreen
 import com.nhj.fitlog.presentation.routine.add.RoutineAddScreen
 import com.nhj.fitlog.presentation.routine.detail.RoutineDetailScreen
 import com.nhj.fitlog.presentation.routine.detail_edit.RoutineDetailEditScreen
@@ -239,6 +240,14 @@ fun MyApp() {
 
         // 운동 기록 목록 화면
         composable(RecordScreenName.RECORD_CALENDAR_SCREEN.name) { RecordCalendarScreen() }
+        // 운동 기록 화면
+        composable(
+            route = "${RecordScreenName.RECORD_EXERCISE_SCREEN.name}/{selectedDateString}"
+        ) {
+            val selectedDateString = it.arguments?.getString("selectedDateString") ?: ""
+
+            RecordExerciseScreen(selectedDateString)
+        }
 
     }
 }
