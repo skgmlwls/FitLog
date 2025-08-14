@@ -11,18 +11,13 @@ import com.nhj.fitlog.data.service.RoutineService
 import com.nhj.fitlog.domain.model.RoutineExerciseModel
 import com.nhj.fitlog.domain.model.RoutineModel
 import com.nhj.fitlog.domain.model.RoutineSetModel
+import com.nhj.fitlog.utils.RoutineExerciseWithSets
 import com.nhj.fitlog.utils.RoutineScreenName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
-
-/** UI에서 다루기 편하도록 '운동 + 세트들'을 묶은 모델 */
-data class RoutineExerciseWithSets(
-    val exercise: RoutineExerciseModel,
-    val sets: MutableList<RoutineSetModel> = mutableStateListOf()
-)
 
 @HiltViewModel
 class RoutineAddViewModel @Inject constructor(

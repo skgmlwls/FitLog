@@ -17,7 +17,6 @@ val Bg = Color(0xFF121212)
 @Composable
 fun RecordCalendarScreen(
     viewModel: RecordCalendarViewModel = hiltViewModel(),
-    onBack: (() -> Unit)? = null
 ) {
     val selected by viewModel.selectedDateMillis.collectAsState()
     val displayedMonth by viewModel.displayedMonthMillis.collectAsState()
@@ -39,7 +38,7 @@ fun RecordCalendarScreen(
         topBar = {
             FitLogTopBar(
                 title = "운동 기록",
-                onBackClick = { onBack?.invoke() }
+                onBackClick = { viewModel.onBackNavigation() }
             )
         }
     ) { inner ->
@@ -80,7 +79,7 @@ fun RecordCalendarScreen(
             FitLogButton(
                 text = "${viewModel.formattedDate(selected)} 기록하기",
                 onClick = {
-                    // 버튼 클릭 시 동작
+                    viewModel.onNavigateToRecordExercise(selected)
                 },
             )
         }

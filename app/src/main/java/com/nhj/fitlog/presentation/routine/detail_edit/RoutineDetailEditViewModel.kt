@@ -11,6 +11,7 @@ import com.nhj.fitlog.data.service.RoutineService
 import com.nhj.fitlog.domain.model.RoutineExerciseModel
 import com.nhj.fitlog.domain.model.RoutineModel
 import com.nhj.fitlog.domain.model.RoutineSetModel
+import com.nhj.fitlog.utils.RoutineExerciseWithSets
 import com.nhj.fitlog.utils.RoutineScreenName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -242,7 +243,7 @@ class RoutineDetailEditViewModel @Inject constructor(
                     exerciseCount = items.value.size
                 )
                 routineService.replaceRoutine(uid, toSave, items.value.map {
-                    com.nhj.fitlog.presentation.routine.add.RoutineExerciseWithSets(
+                    RoutineExerciseWithSets(
                         exercise = it.exercise,
                         sets = it.sets
                     )

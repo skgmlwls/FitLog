@@ -3,7 +3,7 @@ package com.nhj.fitlog.data.service
 import com.nhj.fitlog.data.repository.RoutineRepository
 import com.nhj.fitlog.domain.model.*
 import com.nhj.fitlog.domain.vo.*
-import com.nhj.fitlog.presentation.routine.add.RoutineExerciseWithSets
+import com.nhj.fitlog.utils.RoutineExerciseWithSets
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

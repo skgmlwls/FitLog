@@ -2,6 +2,8 @@ package com.nhj.fitlog.presentation.record.record_calendar
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import com.nhj.fitlog.FitLogApplication
+import com.nhj.fitlog.utils.RecordScreenName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +19,7 @@ import javax.inject.Inject
 class RecordCalendarViewModel @Inject constructor(
     @ApplicationContext val context: Context,
 ) : ViewModel() {
+    val application = context as FitLogApplication
 
     // 대한민국(KST) 시간대
     val zoneId: ZoneId = ZoneId.of("Asia/Seoul")
@@ -66,4 +69,13 @@ class RecordCalendarViewModel @Inject constructor(
             ?: LocalDate.now(zoneId)
         return date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     }
+
+    fun onNavigateToRecordExercise(selected: Long?) {
+        val selectedDateString = formattedDate(selected) // "2024-05-15"
+        application.navHostController.navigate(
+            "${RecordScreenName.RECORD_EXERCISE_SCREEN.name}/$selectedDateString"
+        )
+    }
+
+    fun onBackNavigation() = application.navHostController.popBackStack()
 }
