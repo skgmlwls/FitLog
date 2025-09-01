@@ -2,10 +2,13 @@ package com.nhj.fitlog.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.nhj.fitlog.ui.theme.NanumSquareRound
@@ -16,6 +19,9 @@ fun FitLogText(
     fontSize: Int = 16, // ✅ Int로 받음
     fontWeight: FontWeight = FontWeight.Normal,
     color: Color = Color(0xFF47A6FF),
+    modifier: Modifier = Modifier,
+    textAlign: TextAlign? = null,
+    maxLines: Int? = null
 ) {
     Text(
         text = text,
@@ -23,6 +29,10 @@ fun FitLogText(
         fontSize = fontSize.sp, // ✅ 내부에서 sp로 변환
         fontWeight = fontWeight,
         fontFamily = NanumSquareRound,
-        style = TextStyle()
+        style = TextStyle(),
+        modifier = modifier,
+        textAlign = textAlign,
+        maxLines = maxLines ?: Int.MAX_VALUE,
+        overflow = TextOverflow.Ellipsis
     )
 }

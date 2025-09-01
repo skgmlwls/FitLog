@@ -8,7 +8,8 @@ data class ExerciseTypeModel(
     var name: String = "",                  // 운동 이름
     var category: String = "",              // 부위 카테고리 (예: 가슴, 등 등)
     var memo: String = "",                  // 기타 메모
-    var createdAt: Long = System.currentTimeMillis() // 등록 시간
+    var createdAt: Long = System.currentTimeMillis(), // 등록 시간
+    var checkDelete: Boolean = false,          // 삭제 여부
 ) {
-    fun toVO() = ExerciseTypeVO(id, name, category, memo, createdAt)
+    fun toVO() = ExerciseTypeVO(id, name, category, memo, createdAt, checkDelete)
 }

@@ -24,7 +24,8 @@ fun FitLogTopBar(
     fontSize: TextUnit = 24.sp,
     hasActionIcon: Boolean = false, // ✅ 오른쪽 아이콘 사용 여부
     actionIcon: ImageVector = Icons.Default.Add, // 기본값 (원하면 바꿔도 됨)
-    onActionClick: () -> Unit = {} // 오른쪽 아이콘 클릭 콜백
+    onActionClick: () -> Unit = {}, // 오른쪽 아이콘 클릭 콜백
+    actionsContent: (@Composable RowScope.() -> Unit)? = null // ✅ 추가
 ) {
     var isClickable by remember { mutableStateOf(true) }
     var trigger by remember { mutableStateOf(false) }
@@ -64,13 +65,11 @@ fun FitLogTopBar(
             }
         },
         actions = {
-            if (hasActionIcon) {
+            if (actionsContent != null) {
+                actionsContent() // ✅ 다중 액션 슬롯 사용
+            } else if (hasActionIcon) {
                 IconButton(onClick = onActionClick) {
-                    Icon(
-                        imageVector = actionIcon,
-                        contentDescription = "액션 아이콘",
-                        tint = Color.White
-                    )
+                    Icon(imageVector = actionIcon, contentDescription = "액션 아이콘", tint = Color.White)
                 }
             }
         },

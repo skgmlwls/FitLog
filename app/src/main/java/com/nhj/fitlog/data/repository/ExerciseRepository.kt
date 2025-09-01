@@ -20,31 +20,37 @@ class ExerciseRepository {
 
         return snapshot.documents
             .mapNotNull { it.toObject(ExerciseTypeModel::class.java)?.toVO() }
+            .filter { !it.checkDelete }               // 삭제된 것 제외
             .sortedBy { it.name }  // ㄱ,ㄴ,ㄷ... 순으로 정렬
     }
 
-    // 특정 이름의 운동 종류가 이미 존재하는지 체크
+    // 이름 중복 체크: 같은 이름 중에 checkDelete=false 인 것만 중복으로 간주
     suspend fun isNameDuplicated(uid: String, name: String): Boolean {
-        val snap = db
-            .collection("users")
+        val snap = db.collection("users")
             .document(uid)
             .collection("exerciseType")
             .whereEqualTo("name", name)
             .get()
             .await()
 
-        return !snap.isEmpty
+        return snap.documents
+            .mapNotNull { it.toObject(ExerciseTypeVO::class.java) }
+            .any { !it.checkDelete }                  // ⬅️ 살아있는 문서가 있으면 중복
     }
 
     // 새로운 운동 종류 추가
     suspend fun addExerciseType(uid: String, vo: ExerciseTypeVO) {
-        val ref = db
-            .collection("users")
+        val ref = db.collection("users")
             .document(uid)
             .collection("exerciseType")
-            .document()             // 자동 ID 생성
-        val withId = vo.copy(id = ref.id)
-        ref.set(withId).await()
+            .document()
+
+        val withDefaults = vo.copy(
+            id = ref.id,
+            checkDelete = false,                      // 삭제 기본값
+            createdAt = if (vo.createdAt == 0L) System.currentTimeMillis() else vo.createdAt
+        )
+        ref.set(withDefaults).await()
     }
 
     // 운동 종류 업데이트 (name, category, memo만)
@@ -69,7 +75,12 @@ class ExerciseRepository {
             .document(uid)
             .collection("exerciseType")
             .document(id)
-            .delete()
+            .update(
+                mapOf(
+                    "checkDelete" to true,            // 삭제 플래그
+                    "deletedAt" to System.currentTimeMillis()
+                )
+            )
             .await()
     }
 

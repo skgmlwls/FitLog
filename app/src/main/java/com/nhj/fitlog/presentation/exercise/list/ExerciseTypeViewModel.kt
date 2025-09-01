@@ -67,8 +67,8 @@ class ExerciseTypeViewModel @Inject constructor(
     // exerciseType 컬렉션 실시간 구독 및 초기 데이터 불러오기
     fun startExerciseListener() {
         val uid = application.userUid
-        exerciseListener = FirebaseFirestore
-            .getInstance()
+
+        exerciseListener = FirebaseFirestore.getInstance()
             .collection("users")
             .document(uid)
             .collection("exerciseType")
@@ -80,6 +80,7 @@ class ExerciseTypeViewModel @Inject constructor(
                 }
                 snap?.documents
                     ?.mapNotNull { it.toObject(ExerciseTypeVO::class.java)?.toModel() }
+                    ?.filter { !it.checkDelete }                      // 삭제 제외
                     ?.sortedBy { it.name }
                     ?.also { updated ->
                         allExercises.value = updated
