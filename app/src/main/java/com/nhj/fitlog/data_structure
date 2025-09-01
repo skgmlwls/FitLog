@@ -56,3 +56,52 @@ users (컬렉션)
     │       ├─ profileImageUrl: "https://..."
     │       ├─ isVisible: true
     │       └─ addedAt: 1722031749000
+
+/users (컬렉션)
+└── SRR7TqF9AWW6lNaFH0x5JNlEZPd2 (문서)
+    ├── createdAt: 1754331558981 (번호)
+    ├── email: "dkna88@naver.com"
+    ├── id: ""
+    ├── joinMethod: "Kakao"
+    ├── nickname: "카카오 닉네임"
+    ├── password: ""
+    ├── phone: ""
+    ├── picturePublic: true
+    ├── profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/fitlog-5b415.firebasestorage.app/o/ProfileImage%2FSRR7TqF9AWW6lNaFH0x5JNlEZPd2.jpg?alt=media&token=bae280b3-d213-4f97-b852-c462981402ee"
+    ├── recordPublic: false
+    ├── uid: "SRR7TqF9AWW6lNaFH0x5JNlEZPd2"
+    │
+    ├── exerciseType (컬렉션)
+    │   └── 0SRk6gpmCqR3nIJ6xqir (문서)
+    │       ├── category: "복부"
+    │       ├── createdAt: 1754832863598 (번호)
+    │       ├── id: "0SRk6gpmCqR3nIJ6xqir"
+    │       ├── memo: "ㅇㅇ"
+    │       └── name: "윗몸"
+    │
+    └── routines (컬렉션)
+        └── 726LWFvGywwpBzMnhbRB (문서)
+            ├── createdAt: 1754840503969 (번호)
+            ├── exerciseCount: 3
+            ├── memo: "ㅇㅇ이걸;ㅣㅏㅁㄴ얼;ㅣㅏㅁ너라ㅣ;만일;ㄹ;뭐야;ㅣ먼이럼ㄴ;이ㅏㅓㄹ"
+            ├── name: "테스트2"
+            └── routineId: "726LWFvGywwpBzMnhbRB"
+                │
+                └── exercises (컬렉션)
+                    └── 0314c3c9-e900-41de-bda1-36090d6988d6 (문서)
+                        ├── createdAt: 1754840494243 (번호)
+                        ├── exerciseCategory: "가슴"
+                        ├── exerciseMemo: "의자높이 : 3 바 높이 : 1"
+                        ├── exerciseName: "체스트 프레스"
+                        ├── exerciseTypeId: "Xhne9GGTHcgEEBbfbI2Z"
+                        ├── itemId: "0314c3c9-e900-41de-bda1-36090d6988d6"
+                        ├── order: 1
+                        ├── setCount: 3
+                        │
+                        └── sets (컬렉션)
+                            └── 3b50ae90-8b7c-4930-8ffa-3f21eccddb68 (문서)
+                                ├── createdAt: 1754840494243 (번호)
+                                ├── reps: 4
+                                ├── setId: "3b50ae90-8b7c-4930-8ffa-3f21eccddb68"
+                                ├── setNumber: 1
+                                └── weight: 3

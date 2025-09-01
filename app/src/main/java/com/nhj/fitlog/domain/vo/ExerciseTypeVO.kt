@@ -9,6 +9,7 @@ data class ExerciseTypeVO(
     val category: String = "",                   // 부위 카테고리
     val memo: String = "",                       // 기타 메모
     val createdAt: Long = 0,                     // 등록 시간
+    var checkDelete: Boolean = false,          // 삭제 여부
 ) {
-    fun toModel() = ExerciseTypeModel(id, name, category, memo, createdAt)
+    fun toModel() = ExerciseTypeModel(id, name, category, memo, createdAt, checkDelete)
 }

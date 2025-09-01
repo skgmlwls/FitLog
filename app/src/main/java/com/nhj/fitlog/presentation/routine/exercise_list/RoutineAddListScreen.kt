@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.nhj.fitlog.component.FitLogTopBar
 import androidx.compose.foundation.lazy.items   // 리스트 버전 임포트
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
@@ -33,7 +35,10 @@ fun RoutineAddListScreen(
         topBar = {
             FitLogTopBar(
                 title = "운동 선택",
-                onBackClick = { viewModel.application.navHostController.popBackStack() }
+                onBackClick = { viewModel.application.navHostController.popBackStack() },
+                hasActionIcon = true,
+                actionIcon = Icons.Default.Add,
+                onActionClick = { viewModel.onNavigateExerciseAdd() }
             )
         }
     ) { padding ->

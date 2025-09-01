@@ -12,6 +12,7 @@ import com.nhj.fitlog.data.service.UserService
 import com.nhj.fitlog.domain.model.ExerciseTypeModel
 import com.nhj.fitlog.domain.vo.ExerciseTypeVO
 import com.nhj.fitlog.utils.ExerciseCategories
+import com.nhj.fitlog.utils.ExerciseScreenName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -79,4 +80,6 @@ class RoutineAddListViewModel @Inject constructor(
         nav.previousBackStackEntry?.savedStateHandle?.set("selectedExerciseMemo", memo)
         nav.popBackStack()
     }
+
+    fun onNavigateExerciseAdd() = application.navHostController.navigate(ExerciseScreenName.EXERCISE_ADD_SCREEN.name)
 }

@@ -60,7 +60,18 @@ enum class RecordScreenName {
     RECORD_EXERCISE_SCREEN,
     // 운동 기록 상세 화면
     RECORD_DETAIL_SCREEN,
+    // 운동 기록 수정 화면
+    RECORD_EDIT_SCREEN,
 
+}
+
+enum class FriendScreenName {
+    // 친구 목록 리스트 화면
+    FRIEND_LIST_SCREEN,
+    // 친구 추가 화면
+    FRIEND_REQUESTS_SCREEN,
+    // 친구 상세 화면
+    FRIEND_DETAIL_SCREEN,
 }
 
 enum class UserProfileScreenName {

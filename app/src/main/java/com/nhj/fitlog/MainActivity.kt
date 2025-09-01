@@ -28,6 +28,8 @@ import com.nhj.fitlog.presentation.exercise.edit.ExerciseDetailEditScreen
 import com.nhj.fitlog.presentation.exercise.history.ExerciseHistoryScreen
 import com.nhj.fitlog.presentation.exercise.history_detail.ExerciseHistoryDetailScreen
 import com.nhj.fitlog.presentation.exercise.list.ExerciseTypeScreen
+import com.nhj.fitlog.presentation.friends.list.FriendsListScreen
+import com.nhj.fitlog.presentation.friends.requests.FriendRequestsScreen
 import com.nhj.fitlog.presentation.home.HomeScreen
 import com.nhj.fitlog.presentation.join.JoinScreen1
 import com.nhj.fitlog.presentation.join.JoinScreen2
@@ -37,6 +39,8 @@ import com.nhj.fitlog.presentation.join.JoinViewModel
 import com.nhj.fitlog.presentation.login.LoginScreen
 import com.nhj.fitlog.presentation.login.social_nickname.SocialNickNameScreen
 import com.nhj.fitlog.presentation.record.record_calendar.RecordCalendarScreen
+import com.nhj.fitlog.presentation.record.record_detail.RecordDetailScreen
+import com.nhj.fitlog.presentation.record.record_edit.RecordEditScreen
 import com.nhj.fitlog.presentation.record.record_exercise.RecordExerciseScreen
 import com.nhj.fitlog.presentation.routine.add.RoutineAddScreen
 import com.nhj.fitlog.presentation.routine.detail.RoutineDetailScreen
@@ -48,6 +52,7 @@ import com.nhj.fitlog.presentation.splash.SplashScreen
 import com.nhj.fitlog.presentation.user.profile.ProfileScreen
 import com.nhj.fitlog.ui.theme.FitLogTheme
 import com.nhj.fitlog.utils.ExerciseScreenName
+import com.nhj.fitlog.utils.FriendScreenName
 import com.nhj.fitlog.utils.JoinScreenName
 import com.nhj.fitlog.utils.MainScreenName
 import com.nhj.fitlog.utils.RecordScreenName
@@ -239,7 +244,14 @@ fun MyApp() {
         }
 
         // 운동 기록 목록 화면
-        composable(RecordScreenName.RECORD_CALENDAR_SCREEN.name) { RecordCalendarScreen() }
+        composable(
+            route = "${RecordScreenName.RECORD_CALENDAR_SCREEN.name}/{previousScreen}/{uid}/{nickName}",
+        ) {
+            val previousScreen = it.arguments?.getString("previousScreen") ?: RecordScreenName.RECORD_CALENDAR_SCREEN.name
+            val uid = it.arguments?.getString("uid") ?: ""
+            val nickName = it.arguments?.getString("nickName") ?: ""
+            RecordCalendarScreen(previousScreen, uid, nickName)
+        }
         // 운동 기록 화면
         composable(
             route = "${RecordScreenName.RECORD_EXERCISE_SCREEN.name}/{selectedDateString}"
@@ -248,6 +260,36 @@ fun MyApp() {
 
             RecordExerciseScreen(selectedDateString)
         }
+        // 운동 상세 기록 화면
+        composable(
+            route = "${RecordScreenName.RECORD_DETAIL_SCREEN.name}/{recordId}/{uid}/{previousScreen}"
+        ) { backStackEntry ->
+            val recordId = backStackEntry.arguments?.getString("recordId") ?: return@composable
+            val uid = backStackEntry.arguments?.getString("uid") ?: return@composable
+            val previousScreen = backStackEntry.arguments?.getString("previousScreen") ?: MainScreenName.MAIN_SCREEN_HOME.name
+            RecordDetailScreen(recordId = recordId, uid = uid, previousScreen = previousScreen)
+        }
+        // 운동 기록 수정 화면
+        composable(
+            route = "${RecordScreenName.RECORD_EDIT_SCREEN.name}/{recordId}"
+        ) {
+            val recordId = it.arguments?.getString("recordId") ?: return@composable
+            RecordEditScreen(recordId = recordId)
+        }
+
+        // 친구 목록 리스트 화면
+        composable(
+            FriendScreenName.FRIEND_LIST_SCREEN.name
+        ) {
+            FriendsListScreen()
+        }
+        // 친구 요청 리스트 화면
+        composable(
+            FriendScreenName.FRIEND_REQUESTS_SCREEN.name
+        ) {
+            FriendRequestsScreen()
+        }
+
 
     }
 }
