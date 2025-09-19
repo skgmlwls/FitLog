@@ -74,7 +74,7 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("androidx.compose.material3:material3:1.3.1")
+    implementation("androidx.compose.material3:material3:1.3.2")
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
@@ -82,6 +82,13 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.android.gms:play-services-auth:20.6.0")
     implementation("com.google.firebase:firebase-storage")
+    // Data Connect 사용 시
+    implementation("com.google.firebase:firebase-dataconnect:16.0.0") // 예시
+    implementation("com.google.firebase:firebase-functions")
+    implementation("com.google.firebase:firebase-database")
+
+    // ✅ Kotlinx Serialization (JSON)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
     // DataStore Preferences
     implementation("androidx.datastore:datastore-preferences:1.0.0")

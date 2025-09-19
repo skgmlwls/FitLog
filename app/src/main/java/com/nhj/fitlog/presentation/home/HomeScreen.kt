@@ -17,12 +17,12 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.nhj.fitlog.R
 import com.nhj.fitlog.component.FitLogIconButton
 import com.nhj.fitlog.component.FitLogText
+import com.nhj.fitlog.presentation.home.component.AnalysisCallOutCard
 import com.nhj.fitlog.presentation.home.component.FitLogHomeButton
 import com.nhj.fitlog.presentation.home.component.StoryAvatar
 import com.nhj.fitlog.presentation.home.component.UpdatedFriendsEmpty
@@ -71,26 +71,17 @@ fun HomeScreen(
                                 tint = Color.White
                             )
                         }
-                        Text(
+                        FitLogText(
                             text = "FITLOG",
                             color = Color(0xFF47A6FF),
-                            fontSize = 60.sp,
+                            fontSize = 40,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier
                                 .align(Alignment.BottomStart)
                                 .padding(top = 16.dp)
                         )
+                        Spacer(Modifier.height(10.dp))
                     }
-                }
-
-                // ── 인사말 ──────────────────────────────────────────────
-                item {
-                    Text(
-                        text = "${viewModel.application.userModel.nickname}님 안녕하세요~!",
-                        color = Color.White,
-                        fontSize = 16.sp
-                    )
-                    Spacer(Modifier.height(16.dp))
                 }
 
                 // ── 오늘 업데이트 스토리 행 ─────────────────────────────
@@ -125,7 +116,7 @@ fun HomeScreen(
                                 }
                             }
                         }
-                        Spacer(Modifier.height(24.dp))
+                        Spacer(Modifier.height(10.dp))
                     }
                 } else {
                     // ✅ 빈 상태
@@ -136,6 +127,27 @@ fun HomeScreen(
                         )
                         Spacer(Modifier.height(24.dp))
                     }
+                }
+
+                // ── 분석 화면 CTA ──────────────────────────────────────────────
+                item {
+                    AnalysisCallOutCard(
+                        onClick = {
+                            viewModel.onNavigateToAnalysis()
+                        }
+                    )
+                    Spacer(Modifier.height(16.dp))
+                }
+
+                // ── 오늘 운동 기록하기 CTA ──────────────────────────────
+                item {
+                    FitLogIconButton(
+                        text = "오늘 운동 기록하기",
+                        icon = Icons.Default.AddCircleOutline,
+                        onClick = { viewModel.onNavigateToRecordExerciseToday() },
+                        color = Color(0xFF2C2C2C)
+                    )
+                    Spacer(Modifier.height(16.dp))
                 }
 
                 // ── 2x2 버튼 그리드 ─────────────────────────────────────
@@ -176,14 +188,12 @@ fun HomeScreen(
                     Spacer(Modifier.height(16.dp))
                 }
 
-                // ── 오늘 운동 기록하기 CTA ──────────────────────────────
                 item {
                     FitLogIconButton(
-                        text = "오늘 운동 기록하기",
-                        icon = Icons.Default.AddCircleOutline,
-                        onClick = { viewModel.onNavigateToRecordExerciseToday() }
+                        text = "AI 운동 코치",
+                        icon = Icons.Default.ChecklistRtl,
+                        onClick = { viewModel.onNavigateToCoach() }
                     )
-                    Spacer(Modifier.height(16.dp))
                 }
             }
         }

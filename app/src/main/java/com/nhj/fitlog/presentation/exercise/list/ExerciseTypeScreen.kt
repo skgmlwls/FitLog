@@ -47,18 +47,12 @@ fun ExerciseTypeScreen(
         topBar = {
             FitLogTopBar(
                 title = "운동 종류",
-                onBackClick = { viewModel.onBackNavigation() }
+                onBackClick = { viewModel.onBackNavigation() },
+                hasActionIcon = true,
+                actionIcon = Icons.Default.Add,
+                onActionClick = { viewModel.onNavigateExerciseAdd() }
             )
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                containerColor = Color(0xFF47A6FF),
-                contentColor = Color.White,
-                onClick = { viewModel.onNavigateExerciseAdd() }
-            ) {
-                Icon(Icons.Default.Add, contentDescription = "운동 추가")
-            }
-        }
     ) { padding ->
         Column(
             modifier = Modifier

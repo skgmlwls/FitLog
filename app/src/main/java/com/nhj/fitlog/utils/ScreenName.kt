@@ -78,3 +78,13 @@ enum class UserProfileScreenName {
     // 프로필 화면
     PROFILE_SCREEN,
 }
+
+enum class AnalysisScreenName {
+    // 분석 화면
+    ANALYSIS_SCREEN
+}
+
+enum class CoachScreenName {
+    // AI 코치 스크린
+    COACH_SCREEN
+}

@@ -32,7 +32,7 @@ import com.nhj.fitlog.component.FitLogText
 import com.nhj.fitlog.component.FitLogTextField
 import com.nhj.fitlog.component.LottieLoadingOverlay
 import com.nhj.fitlog.presentation.login.component.FitLogAutoLoginCheckbox
-import com.nhj.fitlog.presentation.login.component.FitLogIconButton
+import com.nhj.fitlog.presentation.login.component.FitLogIconButton2
 import com.nhj.fitlog.presentation.login.launcher.rememberGoogleSignInLauncher
 
 @Composable
@@ -165,7 +165,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(20.dp))
             
             // 카카오 로그인 버튼
-            FitLogIconButton(
+            FitLogIconButton2(
                 text = "카카오 로그인",
                 icon = painterResource(id = R.drawable.kakao_icon),
                 onClick = { viewModel.onKakaoSignIn(activity) },
@@ -176,7 +176,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(5.dp))
 
             // 구글 로그인 버튼 클릭 시
-            FitLogIconButton(
+            FitLogIconButton2(
                 text = "구글 로그인",
                 icon = painterResource(id = R.drawable.google_icon),
                 onClick = launchGoogleSignIn,

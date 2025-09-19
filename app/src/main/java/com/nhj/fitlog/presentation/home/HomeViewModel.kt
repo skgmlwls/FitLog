@@ -14,6 +14,8 @@ import com.nhj.fitlog.data.service.FriendItem
 import com.nhj.fitlog.data.service.FriendService
 import com.nhj.fitlog.domain.model.UserModel
 import com.nhj.fitlog.domain.vo.UserVO
+import com.nhj.fitlog.utils.AnalysisScreenName
+import com.nhj.fitlog.utils.CoachScreenName
 import com.nhj.fitlog.utils.ExerciseScreenName
 import com.nhj.fitlog.utils.FriendScreenName
 import com.nhj.fitlog.utils.MainScreenName
@@ -154,5 +156,16 @@ class HomeViewModel @Inject constructor(
             "${RecordScreenName.RECORD_EXERCISE_SCREEN.name}/$today"
         )
     }
+
+    // 분석 화면으로 이동
+    fun onNavigateToAnalysis() {
+        application.navHostController.navigate(AnalysisScreenName.ANALYSIS_SCREEN.name)
+    }
+
+    // 코치 화면으로 이동
+    fun onNavigateToCoach() {
+        application.navHostController.navigate(CoachScreenName.COACH_SCREEN.name)
+    }
+
 
 }

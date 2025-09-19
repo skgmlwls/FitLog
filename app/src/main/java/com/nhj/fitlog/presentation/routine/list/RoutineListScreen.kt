@@ -27,16 +27,12 @@ fun RoutineListScreen(
         topBar = {
             FitLogTopBar(
                 title = "루틴 목록",
-                onBackClick = { viewModel.onBackNavigation() }
+                onBackClick = { viewModel.onBackNavigation() },
+                hasActionIcon = true,
+                actionIcon = Icons.Default.Add,
+                onActionClick = { viewModel.onNavigateRoutineAdd() }
             )
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                containerColor = Color(0xFF47A6FF),
-                contentColor = Color.White,
-                onClick = { viewModel.onNavigateRoutineAdd() }
-            ) { Icon(Icons.Default.Add, contentDescription = "루틴 추가") }
-        }
     ) { padding ->
 
         Spacer(Modifier.height(18.dp))
