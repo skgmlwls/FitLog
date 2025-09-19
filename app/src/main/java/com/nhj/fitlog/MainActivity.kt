@@ -22,6 +22,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.nhj.fitlog.presentation.analysis.AnalysisScreen
+import com.nhj.fitlog.presentation.coach.CoachScreen
 import com.nhj.fitlog.presentation.exercise.add.ExerciseAddScreen
 import com.nhj.fitlog.presentation.exercise.detail.ExerciseDetailScreen
 import com.nhj.fitlog.presentation.exercise.edit.ExerciseDetailEditScreen
@@ -51,6 +53,8 @@ import com.nhj.fitlog.presentation.setting.SettingsScreen
 import com.nhj.fitlog.presentation.splash.SplashScreen
 import com.nhj.fitlog.presentation.user.profile.ProfileScreen
 import com.nhj.fitlog.ui.theme.FitLogTheme
+import com.nhj.fitlog.utils.AnalysisScreenName
+import com.nhj.fitlog.utils.CoachScreenName
 import com.nhj.fitlog.utils.ExerciseScreenName
 import com.nhj.fitlog.utils.FriendScreenName
 import com.nhj.fitlog.utils.JoinScreenName
@@ -290,6 +294,19 @@ fun MyApp() {
             FriendRequestsScreen()
         }
 
+        // 분석 화면
+        composable(
+            AnalysisScreenName.ANALYSIS_SCREEN.name
+        ) {
+            AnalysisScreen()
+        }
+
+        // 코치 화면
+        composable(
+            CoachScreenName.COACH_SCREEN.name
+        ) {
+            CoachScreen()
+        }
 
     }
 }

@@ -8,7 +8,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.nhj.fitlog.FitLogApplication
 import com.nhj.fitlog.data.service.ExerciseService
-import com.nhj.fitlog.data.service.UserService
 import com.nhj.fitlog.domain.model.ExerciseTypeModel
 import com.nhj.fitlog.domain.vo.ExerciseTypeVO
 import com.nhj.fitlog.utils.ExerciseCategories
@@ -81,5 +80,5 @@ class RoutineAddListViewModel @Inject constructor(
         nav.popBackStack()
     }
 
-    fun onNavigateExerciseAdd() = application.navHostController.navigate(ExerciseScreenName.EXERCISE_ADD_SCREEN.name)
+    fun onNavigateRoutineAdd() = application.navHostController.navigate(ExerciseScreenName.EXERCISE_ADD_SCREEN.name)
 }

@@ -1,6 +1,5 @@
 package com.nhj.fitlog.presentation.home.component
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,7 +27,7 @@ fun FitLogHomeButton(
 ) {
     Box(
         modifier = modifier
-            .height(140.dp)
+            .height(120.dp)
             .background(Color(0xFF2C2C2C), shape = RoundedCornerShape(16.dp))
             .clickable { onClick() }
             .padding(0.dp),

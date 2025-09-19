@@ -30,10 +30,7 @@ import com.nhj.fitlog.presentation.friends.list.component.ProfileAvatar
 import com.nhj.fitlog.presentation.friends.list.component.SearchFriendListField
 
 private val Bg = Color(0xFF121212)
-private val CardBg = Color(0xFF1E1E1E)
-private val OnBg = Color(0xFFE6E6E6)
 private val Subtle = Color(0xFFB5B5B5)
-private val Primary = Color(0xFF3D7DFF)
 @Composable
 fun FriendsListScreen(
     viewModel: FriendsListViewModel = hiltViewModel()

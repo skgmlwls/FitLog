@@ -38,7 +38,7 @@ fun RoutineAddListScreen(
                 onBackClick = { viewModel.application.navHostController.popBackStack() },
                 hasActionIcon = true,
                 actionIcon = Icons.Default.Add,
-                onActionClick = { viewModel.onNavigateExerciseAdd() }
+                onActionClick = { viewModel.onNavigateRoutineAdd() }
             )
         }
     ) { padding ->
